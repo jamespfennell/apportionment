@@ -17,20 +17,22 @@ struct State {
     }
 };
 
+template<typename T>
 struct MaxHeapNode {
-    shared_ptr<State> element;
+    T element;
     long double weight;
 
-    MaxHeapNode(shared_ptr<State> element, long double weight) {
+    MaxHeapNode(T element, long double weight) { // TODO this is not Javay?
         this->element = element;
         this->weight = weight;
     }
 };
 
+template<typename T>
 class MaxHeap {
-   vector<unique_ptr<MaxHeapNode>> nodes;
-   long double (*weightFunction)(shared_ptr<State>);
-   long numElements = 0;
+   vector<unique_ptr<MaxHeapNode<T>>> nodes;
+   long double (*weightFunction)(T);
+   long numElements = 0;  // TODO: remove
 
     long parentIndex(long childIndex) {
         if (childIndex == 0) {
@@ -60,12 +62,11 @@ class MaxHeap {
     }
 
     void swap(long index1, long index2) {
-        // TODO this is kind of wierd.
         (this->nodes[index1]).swap(this->nodes[index2]);
     }
 
    public:
-   MaxHeap(long double (*weightFunction)(shared_ptr<State>), vector<shared_ptr<State>>& initialElements) {
+   MaxHeap(long double (*weightFunction)(T), vector<T>& initialElements) {
        this->weightFunction = weightFunction;
        for (auto&& element : initialElements) {
            this->add(element);
@@ -108,13 +109,13 @@ class MaxHeap {
        return result;
    }
 
-   void add(shared_ptr<State> element) {
+   void add(T element) {
        this->numElements = this->numElements + 1;
-       nodes.push_back(unique_ptr<MaxHeapNode>(new MaxHeapNode(element, this->weightFunction(element))));
+       nodes.push_back(unique_ptr<MaxHeapNode<T>>(new MaxHeapNode<T>(element, this->weightFunction(element))));
         long childIndex = this->numElements - 1;
         long parentIndex = this->parentIndex(childIndex);
         while (parentIndex >= 0 and (*this->nodes[parentIndex]).weight < (*this->nodes[childIndex]).weight ) {
-            (this->nodes[parentIndex]).swap(this->nodes[childIndex]);
+            this->swap(parentIndex, childIndex);
             childIndex = parentIndex;
             parentIndex = this->parentIndex(childIndex);
         }
@@ -165,7 +166,7 @@ int main()
     // This works:
     // states = getStates(cin);
 
-    unique_ptr<MaxHeap> maxHeap = unique_ptr<MaxHeap>{new MaxHeap(calculatePriority, states)};
+    unique_ptr<MaxHeap<shared_ptr<State>>> maxHeap = unique_ptr<MaxHeap<shared_ptr<State>>>{new MaxHeap<shared_ptr<State>>(calculatePriority, states)};
 
     for (int i=0; i<435 - 50; i++) {
         shared_ptr<State> highestPriorityState = maxHeap->pop();
