@@ -1,0 +1,7 @@
+language: cpp
+
+script:
+  - clang++ -std=c++11 -stdlib=libc++ apportionment.cpp -o apportionment
+  - ./apportionment > 2010_now.csv
+  - diff 2010.csv 2010_now.csv
+  
