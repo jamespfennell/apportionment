@@ -43,7 +43,7 @@ class MaxHeap {
 
     long leftChildIndex(long parentIndex) {
         long childIndex = 2 * parentIndex + 1;
-        if (childIndex >= this->numElements) {
+        if (childIndex >= this->nodes.size()) {
             return -1;
         }
         return childIndex;
@@ -51,7 +51,7 @@ class MaxHeap {
 
     long rightChildIndex(long parentIndex) {
         long childIndex = 2 * parentIndex + 2;
-        if (childIndex >= this->numElements) {
+        if (childIndex >= this->nodes.size()) {
             return -1;
         }
         return childIndex;
@@ -76,7 +76,7 @@ class MaxHeap {
    shared_ptr<State> pop() {
        shared_ptr<State> result = (*(this->nodes[0])).element;
        if (this->numElements > 1) {
-           (this->nodes[0]).swap(this->nodes[this->numElements -1]);
+           this->swap(0, this->nodes.size() - 1);
        }
        this->nodes.pop_back();
        this->numElements -= 1;
