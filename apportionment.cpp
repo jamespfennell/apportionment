@@ -31,6 +31,7 @@ struct MaxHeapNode {
 template<typename T>
 class MaxHeap {
    vector<unique_ptr<MaxHeapNode<T>>> nodes;
+   vector<MaxHeapNode<T>> nodes2;
    long double (*weightFunction)(T);
    long numElements = 0;  // TODO: remove
 
@@ -63,6 +64,9 @@ class MaxHeap {
 
     void swap(long index1, long index2) {
         (this->nodes[index1]).swap(this->nodes[index2]);
+        MaxHeapNode<T> element = std::move(this->nodes2[index1]);
+        this->nodes2[index1] = std::move(this->nodes2[index2]);
+        this->nodes2[index2] = std::move(element);
     }
 
    public:
@@ -74,11 +78,14 @@ class MaxHeap {
    }
 
    T pop() {
-       T result = (*(this->nodes[0])).element;
+       long lastIndex = this->nodes.size() - 1;
        if (this->numElements > 1) {
-           this->swap(0, this->nodes.size() - 1);
+           this->swap(0, lastIndex);
        }
+       T result = (*(this->nodes[lastIndex])).element;
+       T result2 = std::move((this->nodes2[lastIndex]).element); // [lastIndex].element;
        this->nodes.pop_back();
+       this->nodes2.pop_back();
        this->numElements -= 1;
 
        long parentIndex = 0;
@@ -106,12 +113,14 @@ class MaxHeap {
         }
 
         // re-adjust the heap
-       return result;
+       return result2;
    }
 
+    // TODO: T=unique_ptr won't work here I think
    void add(T element) {
        this->numElements = this->numElements + 1;
        nodes.push_back(unique_ptr<MaxHeapNode<T>>(new MaxHeapNode<T>(element, this->weightFunction(element))));
+       nodes2.push_back(MaxHeapNode<T>{element, this->weightFunction(element)});
         long childIndex = this->numElements - 1;
         long parentIndex = this->parentIndex(childIndex);
         while (parentIndex >= 0 and (*this->nodes[parentIndex]).weight < (*this->nodes[childIndex]).weight ) {
