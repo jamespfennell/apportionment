@@ -3,7 +3,7 @@
 #include <string>
 #include <cmath> 
 #include <fstream>
-#include <map>
+#include <unordered_map>
 using namespace std;
 
 struct State {
@@ -183,6 +183,11 @@ int main()
     vector<shared_ptr<State>> states = getStatesFromCSV(rfile);
     rfile.close();
 
+    vector<State> statesRaw = vector<State>{};
+    for (auto statePtr : states) {
+        statesRaw.push_back(*statePtr);
+    }
+
     vector<int> nums = {1, 2, 30, 4, 9};
     unique_ptr<MaxHeap<int>> m = unique_ptr<MaxHeap<int>>{new MaxHeap<int>(identity, nums)};
     (*m).pop();
@@ -191,7 +196,11 @@ int main()
     m2.pop();
     m2.add(65);
 
-    map<State,long> stateToApportionment = map<State,long>{};
+    unordered_map<string,long> stateNameToApportionment = unordered_map<string,long>{};
+    for (auto state : statesRaw) {
+        stateNameToApportionment[state.name] = 1;
+    }
+    
     // This works:
     // states = getStates(cin);
 
