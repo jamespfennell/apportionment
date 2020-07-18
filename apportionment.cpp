@@ -73,8 +73,8 @@ class MaxHeap {
        }
    }
 
-   shared_ptr<State> pop() {
-       shared_ptr<State> result = (*(this->nodes[0])).element;
+   T pop() {
+       T result = (*(this->nodes[0])).element;
        if (this->numElements > 1) {
            this->swap(0, this->nodes.size() - 1);
        }
@@ -157,12 +157,25 @@ vector<shared_ptr<State>> getStatesFromCSV(istream& inputStream, bool skipFirstL
     return states;
 }
 
+long double identity(int i) {
+    return i;
+}
+
 int main()
 {
     ifstream rfile;
     rfile.open("census2010.csv");
     vector<shared_ptr<State>> states = getStatesFromCSV(rfile);
     rfile.close();
+
+    vector<int> nums = {1, 2, 30, 4, 9};
+    unique_ptr<MaxHeap<int>> m = unique_ptr<MaxHeap<int>>{new MaxHeap<int>(identity, nums)};
+    (*m).pop();
+    (*m).add(26);
+    MaxHeap<int> m2 = MaxHeap<int>(identity, nums);
+    m2.pop();
+    m2.add(65);
+
     // This works:
     // states = getStates(cin);
 
