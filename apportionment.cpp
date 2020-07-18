@@ -3,6 +3,7 @@
 #include <string>
 #include <cmath> 
 #include <fstream>
+#include <map>
 using namespace std;
 
 struct State {
@@ -34,6 +35,8 @@ class MaxHeap {
    vector<MaxHeapNode<T>> nodes2;
    long double (*weightFunction)(T);
    long numElements = 0;  // TODO: remove
+
+
 
     long parentIndex(long childIndex) {
         if (childIndex == 0) {
@@ -117,6 +120,9 @@ class MaxHeap {
    }
 
     // TODO: T=unique_ptr won't work here I think
+    // Maybe pass by R value reference?
+    // Could also have addCopy
+    // or pass by regulare reference and do the move itself
    void add(T element) {
        this->numElements = this->numElements + 1;
        nodes.push_back(unique_ptr<MaxHeapNode<T>>(new MaxHeapNode<T>(element, this->weightFunction(element))));
@@ -185,6 +191,7 @@ int main()
     m2.pop();
     m2.add(65);
 
+    map<State,long> stateToApportionment = map<State,long>{};
     // This works:
     // states = getStates(cin);
 
