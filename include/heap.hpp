@@ -65,7 +65,7 @@ class MaxHeap {
    }
 
    T pop() {
-       // Check for no elements!
+       // Check for no elements! Otherwise get a seg fault
        long lastIndex = this->nodes.size() - 1;
        if (this->numElements > 1) {
            this->swap(0, lastIndex);

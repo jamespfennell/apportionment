@@ -13,7 +13,7 @@ int main()
 {
     ifstream rfile;
     // TODO: file does not exist
-    rfile.open("data/2010_populations.csv");
+    rfile.open("data/2000_populations.csv");
     vector<shared_ptr<State>> states = getStatesFromCSV(rfile, true);
     rfile.close();
     vector<State> statesRaw = vector<State>{};
