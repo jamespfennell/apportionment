@@ -1,5 +1,5 @@
 #include<vector>
-
+#include<iostream>
 using namespace std;
 
 template<typename T>
@@ -65,6 +65,7 @@ class MaxHeap {
    }
 
    T pop() {
+       // Check for no elements!
        long lastIndex = this->nodes.size() - 1;
        if (this->numElements > 1) {
            this->swap(0, lastIndex);

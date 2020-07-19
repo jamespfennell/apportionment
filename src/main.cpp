@@ -12,10 +12,10 @@ long double identity(int i) {
 int main()
 {
     ifstream rfile;
-    rfile.open("census2010.csv");
+    // TODO: file does not exist
+    rfile.open("data/2010_populations.csv");
     vector<shared_ptr<State>> states = getStatesFromCSV(rfile, true);
     rfile.close();
-
     vector<State> statesRaw = vector<State>{};
     for (auto statePtr : states) {
         statesRaw.push_back(*statePtr);
