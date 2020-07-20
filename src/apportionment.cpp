@@ -9,7 +9,13 @@ using namespace std;
 
 
 long double calculatePriority(shared_ptr<State> state) {
-    return state->population / sqrtl(state->apportionment * (state->apportionment + 1)); 
+    long double population = state -> population;
+    cout << "calculationg ..." << population << endl;
+    long double d = state->apportionment * (state->apportionment + 1);
+    cout << "sqrt " << sqrt(d) << endl;
+    long double a  = ( population ) / sqrt(d);
+    cout << a << "return" << a * sqrt(d) << endl;
+    return a;
 }
 
 shared_ptr<State> getHighestPriorityState(const vector<shared_ptr<State>>& states) {

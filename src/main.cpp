@@ -39,8 +39,10 @@ int main()
 
     unique_ptr<MaxHeap<shared_ptr<State>>> maxHeap = unique_ptr<MaxHeap<shared_ptr<State>>>{new MaxHeap<shared_ptr<State>>(calculatePriority, states)};
 
-    for (int i=0; i<435 - 50; i++) {
+    for (int i=0; i<436 - 50; i++) {
         shared_ptr<State> highestPriorityState = maxHeap->pop();
+        cout << 0.1 << endl;
+        cout << "Assigning " << calculatePriority(highestPriorityState) << " " << (*highestPriorityState).name << endl;
         (*highestPriorityState).apportionment++;
         maxHeap->add(highestPriorityState);
     }
