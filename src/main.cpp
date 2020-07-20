@@ -2,13 +2,14 @@
 #include <unordered_map>
 #include <fstream>
 
-#include "csv.cpp"
+#include "../include/csv.hpp"
 #include "../include/apportionment.hpp"
 
 long double identity(int i) {
     return i;
 }
 
+using namespace std;
 
 vector<State> readStates(CsvReader& csvReader, const string& nameHeader, const string& populationHeader) {
     vector<State> states = vector<State>{};
