@@ -20,7 +20,6 @@ vector<State> readStates(CsvReader& csvReader, const string& nameHeader, const s
         states.push_back(state);
     }
     return states;
-
 }
 
 int main()
