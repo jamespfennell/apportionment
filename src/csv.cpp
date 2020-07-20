@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector<string> CsvReader::splitString(string input) {
+vector<string> CsvReader::splitString(const string& input) {
   vector<string> subStrings = vector<string>{};
   int leftIndex = 0;
   int rightIndex = input.find(",", leftIndex);
@@ -40,11 +40,11 @@ CsvReader::CsvReader(istream &inputStream) {
   this->readNextLine();
 }
 
-string CsvReader::getHeader(int index) const {
+string CsvReader::getHeader(const int& index) const {
   return this->indexToHeader.at(index);
 }
 
-bool CsvReader::hasHeader(string header) const {
+bool CsvReader::hasHeader(const string& header) const {
   for (auto it : this->indexToHeader) {
     if (it.second == header) {
       return true;
@@ -54,6 +54,7 @@ bool CsvReader::hasHeader(string header) const {
 }
 
 CsvReader::operator bool() const { return this->hasNextLine; }
+
 unordered_map<string, string> CsvReader::getRow() {
   // TODO: what if it doesn't have a next row?
   vector<string> rowCells = this->splitString(this->nextLine);

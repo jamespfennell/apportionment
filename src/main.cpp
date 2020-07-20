@@ -21,7 +21,9 @@ vector<State> readStates(CsvReader& csvReader, const string& nameHeader, const s
     }
     return states;
 }
-
+// NEXT STEPS
+// - write the CSV writer class and output the CSV file, travis should be green again
+// - accept command line arguments
 int main()
 {
     ifstream rfile1;
