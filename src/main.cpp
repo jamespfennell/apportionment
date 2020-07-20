@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "csv.cpp"
-#include "apportionment.cpp"
+#include "../include/apportionment.hpp"
 
 long double identity(int i) {
     return i;

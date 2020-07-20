@@ -7,30 +7,9 @@
 
 using namespace std;
 
-#include "../include/heap.hpp"
 #include "../include/apportionment.hpp"
 
 // class IntegerOverRadical();
-
-struct ApportionedSeat {
-    State state;
-    long stateSeat;
-    long houseSeat;
-    long double priorityNumber;
-};
-
-class ApportionmentSession {
-    unordered_map<string, long> stateNameToSeats;
-    unordered_map<string, State> stateNameToState;
-    Heap<string> heap;
-
-    long double calculatePriorityNumber(const State& state);
-
-    public:
-    ApportionmentSession(vector<State> states);
-
-    ApportionedSeat apportionSeat();
-};
 
 ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSeats{}, stateNameToState{}, heap{} {
         for (const auto& state : states) {

@@ -1,4 +1,6 @@
 
+#include "heap.hpp"
+
 struct State {
     string name;
     long long population;
@@ -11,6 +13,23 @@ struct State {
     }
 };
 
-vector<shared_ptr<State>> getStatesFromCSV(istream& inputStream, bool skipFirstLine);
 
-long double calculatePriority(shared_ptr<State> state);
+struct ApportionedSeat {
+    State state;
+    long stateSeat;
+    long houseSeat;
+    long double priorityNumber;
+};
+
+class ApportionmentSession {
+    unordered_map<string, long> stateNameToSeats;
+    unordered_map<string, State> stateNameToState;
+    Heap<string> heap;
+
+    long double calculatePriorityNumber(const State& state);
+
+    public:
+    ApportionmentSession(vector<State> states);
+
+    ApportionedSeat apportionSeat();
+};
