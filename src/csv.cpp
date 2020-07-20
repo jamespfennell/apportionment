@@ -4,16 +4,32 @@
 #include <fstream>
 #include <vector>
 
-using namespace std;
 
 class CsvReader {
 
-    unordered_map<int, string> indexToHeader;
-    istream* inputStream;
+    std::unordered_map<int, std::string> indexToHeader;
+    std::istream* inputStream;
     bool hasNextLine = false;
-    string nextLine;
+    std::string nextLine;
 
-    vector<string> splitString(string input) {
+    static std::vector<std::string> splitString(std::string input);
+
+    void readNextLine();
+
+    public:
+    CsvReader(std::istream& inputStream);
+
+    std::string getHeader(int index) const;
+
+    bool hasHeader(std::string header) const;
+
+    operator bool() const;
+
+    std::unordered_map<std::string, std::string> getRow();
+};
+using namespace std;
+
+    vector<string> CsvReader::splitString(string input) {
         vector<string> subStrings = vector<string>{};
         int leftIndex = 0;
         int rightIndex = input.find(",", leftIndex);
@@ -26,12 +42,10 @@ class CsvReader {
         return subStrings;
     }
 
-    void readNextLine() {
+    void CsvReader::readNextLine() {
         this->hasNextLine = bool(getline(*this->inputStream, this->nextLine));
     }
-
-    public:
-    CsvReader(istream& inputStream) {
+CsvReader::CsvReader(istream& inputStream) {
         this->inputStream = &inputStream;
         string header;
         // TODO: handle CRLF file types
@@ -47,11 +61,11 @@ class CsvReader {
         this->readNextLine();
     }
 
-    string getHeader(int index) {
-        return this->indexToHeader[index];
+    string CsvReader::getHeader(int index) const {
+        return this->indexToHeader.at(index);
     }
 
-    bool hasHeader(string header) {
+    bool CsvReader::hasHeader(string header) const {
         for (auto it : this->indexToHeader) {
             if (it.second == header) {
                 return true;
@@ -59,13 +73,17 @@ class CsvReader {
         } 
         return false;
     }
-    
-    operator bool() const 
-    { 
-        return this->hasNextLine;
-    }
 
-    unordered_map<string, string> getRow() {
+
+
+
+
+
+
+CsvReader::operator bool() const {
+    return this->hasNextLine;
+}
+ unordered_map<string, string> CsvReader::getRow() {
         // TODO: what if it doesn't have a next row?
         vector<string> rowCells = this->splitString(this->nextLine);
         unordered_map<string, string> headerToRowCell = unordered_map<string, string>{};
@@ -74,5 +92,4 @@ class CsvReader {
         }
         this->readNextLine();
         return headerToRowCell;
-    }    
-};
+    }  
