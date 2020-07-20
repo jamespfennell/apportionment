@@ -23,6 +23,7 @@ vector<string> CsvReader::splitString(string input) {
 void CsvReader::readNextLine() {
   this->hasNextLine = bool(getline(*this->inputStream, this->nextLine));
 }
+
 CsvReader::CsvReader(istream &inputStream) {
   this->inputStream = &inputStream;
   string header;
