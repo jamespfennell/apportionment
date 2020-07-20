@@ -126,7 +126,6 @@ class MaxHeap {
 
 template<typename T>
 class Heap {
-   vector<unique_ptr<MaxHeapNode<T>>> nodes;
    vector<MaxHeapNode<T>> nodes2;
    long numElements = 0;  // TODO: remove
 
@@ -141,7 +140,7 @@ class Heap {
 
     long leftChildIndex(long parentIndex) {
         long childIndex = 2 * parentIndex + 1;
-        if (childIndex >= this->nodes.size()) {
+        if (childIndex >= this->nodes2.size()) {
             return -1;
         }
         return childIndex;
@@ -149,18 +148,17 @@ class Heap {
 
     long rightChildIndex(long parentIndex) {
         long childIndex = 2 * parentIndex + 2;
-        if (childIndex >= this->nodes.size()) {
+        if (childIndex >= this->nodes2.size()) {
             return -1;
         }
         return childIndex;
     }
 
     long double getWeight(long index) {
-        return (*this->nodes[index]).weight;
+        return (this->nodes2[index]).weight;
     }
 
     void swap(long index1, long index2) {
-        (this->nodes[index1]).swap(this->nodes[index2]);
         MaxHeapNode<T> element = std::move(this->nodes2[index1]);
         this->nodes2[index1] = std::move(this->nodes2[index2]);
         this->nodes2[index2] = std::move(element);
@@ -178,13 +176,11 @@ class Heap {
 
    T pop() {
        // Check for no elements! Otherwise get a seg fault
-       long lastIndex = this->nodes.size() - 1;
+       long lastIndex = this->nodes2.size() - 1;
        if (this->numElements > 1) {
            this->swap(0, lastIndex);
        }
-       T result = (*(this->nodes[lastIndex])).element;
        T result2 = std::move((this->nodes2[lastIndex]).element); // [lastIndex].element;
-       this->nodes.pop_back();
        this->nodes2.pop_back();
        this->numElements -= 1;
 
@@ -222,11 +218,10 @@ class Heap {
     // or pass by regulare reference and do the move itself
    void add(T element, double weight) {
        this->numElements = this->numElements + 1;
-       nodes.push_back(unique_ptr<MaxHeapNode<T>>(new MaxHeapNode<T>(element, weight)));
        nodes2.push_back(MaxHeapNode<T>{element, weight});
         long childIndex = this->numElements - 1;
         long parentIndex = this->parentIndex(childIndex);
-        while (parentIndex >= 0 and (*this->nodes[parentIndex]).weight < (*this->nodes[childIndex]).weight ) {
+        while (parentIndex >= 0 and (this->nodes2[parentIndex]).weight < (this->nodes2[childIndex]).weight ) {
             this->swap(parentIndex, childIndex);
             childIndex = parentIndex;
             parentIndex = this->parentIndex(childIndex);

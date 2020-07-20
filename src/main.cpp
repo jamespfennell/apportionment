@@ -2,9 +2,8 @@
 #include <unordered_map>
 #include <fstream>
 
-#include "../include/heap.hpp"
-#include "../include/apportionment.hpp"
 #include "csv.cpp"
+#include "apportionment.cpp"
 
 long double identity(int i) {
     return i;
@@ -34,6 +33,12 @@ int main()
         cout << state.name << " " << state.population << endl;
     }
     rfile1.close();
+
+    ApportionmentSession session = ApportionmentSession(states);
+    for (int i=51; i<=435; i++) {
+        ApportionedSeat apportionedSeat = session.apportionSeat();
+        cout << "Apportioned " << apportionedSeat.state.name << endl;
+    }
 
     return 0;
     /*
