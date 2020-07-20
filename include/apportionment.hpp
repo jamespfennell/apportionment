@@ -2,15 +2,9 @@
 #include "heap.hpp"
 
 struct State {
-    string name;
+    std::string name;
     long long population;
     long apportionment;
-
-    State(string name, long long population) {
-        this->name = name;
-        this->population = population;
-        this->apportionment = 1;
-    }
 };
 
 
@@ -22,14 +16,14 @@ struct ApportionedSeat {
 };
 
 class ApportionmentSession {
-    unordered_map<string, long> stateNameToSeats;
-    unordered_map<string, State> stateNameToState;
-    Heap<string> heap;
+    std::unordered_map<std::string, long> stateNameToSeats;
+    std::unordered_map<std::string, State> stateNameToState;
+    Heap<std::string> heap;
 
     long double calculatePriorityNumber(const State& state);
 
     public:
-    ApportionmentSession(vector<State> states);
+    ApportionmentSession(std::vector<State> states);
 
     ApportionedSeat apportionSeat();
 };

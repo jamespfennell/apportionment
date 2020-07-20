@@ -5,10 +5,10 @@
 #include <cmath> 
 #include <unordered_map>
 
-using namespace std;
 
 #include "../include/apportionment.hpp"
 
+using namespace std;
 // class IntegerOverRadical();
 
 ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSeats{}, stateNameToState{}, heap{} {
