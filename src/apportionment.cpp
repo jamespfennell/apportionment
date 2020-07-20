@@ -24,13 +24,15 @@ class ApportionmentSession {
     unordered_map<string, State> stateNameToState;
     Heap<string> heap;
 
-    long double calculatePriorityNumber(const State& state) {
-        long n = stateNameToSeats[state.name] * (1 + stateNameToSeats[state.name]);
-        return state.population / sqrt(n);
-    }
+    long double calculatePriorityNumber(const State& state);
 
     public:
-    ApportionmentSession(vector<State> states): stateNameToSeats{}, stateNameToState{}, heap{} {
+    ApportionmentSession(vector<State> states);
+
+    ApportionedSeat apportionSeat();
+};
+
+ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSeats{}, stateNameToState{}, heap{} {
         for (const auto& state : states) {
             this->stateNameToSeats.insert(make_pair(state.name, 1));
             this->stateNameToState.insert(make_pair(state.name, state));
@@ -38,11 +40,19 @@ class ApportionmentSession {
         }
     }
 
-    ApportionedSeat apportionSeat() {
+
+
+
+long double ApportionmentSession::calculatePriorityNumber(const State& state) {
+        long n = stateNameToSeats[state.name] * (1 + stateNameToSeats[state.name]);
+        return state.population / sqrt(n);
+    }
+
+
+ApportionedSeat ApportionmentSession::apportionSeat() {
         State state = this->stateNameToState.at(this->heap.pop());
         this->stateNameToSeats[state.name]++;
         long double priorityNumber = this->calculatePriorityNumber(state);
         this->heap.add(state.name, priorityNumber);
         return ApportionedSeat{state, -1, this->stateNameToSeats[state.name], priorityNumber};
     }
-};

@@ -1,6 +1,5 @@
 #include<vector>
 #include<iostream>
-using namespace std;
 
 template<typename T>
 class Heap {
@@ -10,7 +9,7 @@ class Heap {
         long double weight;
     };
 
-   vector<Node> nodes2;
+   std::vector<Node> nodes2;
     long parentIndex(long childIndex) {
         if (childIndex == 0) {
             return -1;
