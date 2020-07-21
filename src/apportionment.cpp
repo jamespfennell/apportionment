@@ -21,12 +21,11 @@ ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSea
 
 
 
-
+// TODO: rename calculateCurrentPriorityNumber
 long double ApportionmentSession::calculatePriorityNumber(const State& state) {
         long n = stateNameToSeats[state.name] * (1 + stateNameToSeats[state.name]);
         return state.population / sqrt(n);
     }
-
 
 ApportionedSeat ApportionmentSession::apportionSeat() {
         State state = this->stateNameToState.at(this->heap.pop());

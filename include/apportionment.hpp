@@ -4,8 +4,25 @@
 struct State {
     std::string name;
     long long population;
-    long apportionment;
+    long apportionment; // TODO: delete
+
+      bool operator==(const State &other) const
+  { return (name == other.name);
+  }
 };
+
+namespace std {
+
+  template <>
+  struct hash<State>
+  {
+    std::size_t operator()(const State& state) const
+    {
+        return hash<std::string>()(state.name);
+    }
+  };
+
+}
 
 
 struct ApportionedSeat {

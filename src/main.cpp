@@ -25,42 +25,44 @@ vector<State> readStatesFromCsv(CsvReader& csvReader, const string& nameHeader, 
 // - write a hash function for state
 // - use this hash function everywhere
 // - expose a getCurrentApportionment in the ApportionmentSession return the map by const reference
-// - expost an apportionSeats(int numSeats);
+// - expost an apportionMultipleSeats(int numSeats);
 // - accept command line arguments
 
 void writeApportionmentsToCsv(ostream& outputStream, const vector<State>& states,
 const int& minApportionment, const int& maxApportionment) {
+
+
+    unordered_map<State, int> stateToNumberOfSeats; 
+    for (const auto& state: states) {
+        stateToNumberOfSeats.insert(make_pair(state, 1));
+    }
+     ApportionmentSession session = ApportionmentSession(states);
+    for (int i=states.size() + 1; i< minApportionment; i++) {
+        ApportionedSeat apportionedSeat = session.apportionSeat();
+        stateToNumberOfSeats[apportionedSeat.state] = apportionedSeat.stateSeat;
+    }
+
+    unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment;
+    for (int i=minApportionment; i<= maxApportionment; i++) {
+        ApportionedSeat apportionedSeat = session.apportionSeat();
+        stateToNumberOfSeats[apportionedSeat.state] = apportionedSeat.stateSeat;
+        for(const auto& state: states) {
+            stateToNumSeatsToApportionment[state][i] = stateToNumberOfSeats[state];
+        }
+    }
+
+
     vector<string> headers = {"entity"};
     for (int i = minApportionment; i <= maxApportionment; i++) {
         headers.push_back("apportionment_" + to_string(i));
     }
     CsvWriter csvWriter = CsvWriter(outputStream, headers);
 
-
-    unordered_map<string, int> stateNameToNumberOfSeats; 
-    for (const auto& state: states) {
-        stateNameToNumberOfSeats.insert(make_pair(state.name, 1));
-    }
-     ApportionmentSession session = ApportionmentSession(states);
-    for (int i=states.size() + 1; i< minApportionment; i++) {
-        ApportionedSeat apportionedSeat = session.apportionSeat();
-        stateNameToNumberOfSeats[apportionedSeat.state.name] = apportionedSeat.stateSeat;
-    }
-
-    unordered_map<string, unordered_map<int, int>> stateNameToNumSeatsToApportionment;
-    for (int i=minApportionment; i<= maxApportionment; i++) {
-        ApportionedSeat apportionedSeat = session.apportionSeat();
-        stateNameToNumberOfSeats[apportionedSeat.state.name] = apportionedSeat.stateSeat;
-        for(const auto& state: states) {
-            stateNameToNumSeatsToApportionment[state.name][i] = stateNameToNumberOfSeats[state.name];
-        }
-    }
-
     for (const auto& state : states) {
         csvWriter.setCell("entity", state.name);
         for (int i= minApportionment; i <= maxApportionment; i ++ ) {
             csvWriter.setCell("apportionment_" + to_string(i), 
-                to_string(stateNameToNumSeatsToApportionment[state.name][i])
+                to_string(stateToNumSeatsToApportionment[state][i])
             );
         }
         csvWriter.endRow();
