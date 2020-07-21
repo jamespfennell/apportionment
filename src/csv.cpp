@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector<string> CsvReader::splitString(const string& input) {
+vector<string> CsvReader::splitString(const string &input) {
   vector<string> subStrings = vector<string>{};
   int leftIndex = 0;
   int rightIndex = input.find(",", leftIndex);
@@ -40,11 +40,11 @@ CsvReader::CsvReader(istream &inputStream) {
   this->readNextLine();
 }
 
-string CsvReader::getHeader(const int& index) const {
+string CsvReader::getHeader(const int &index) const {
   return this->indexToHeader.at(index);
 }
 
-bool CsvReader::hasHeader(const string& header) const {
+bool CsvReader::hasHeader(const string &header) const {
   for (auto it : this->indexToHeader) {
     if (it.second == header) {
       return true;
@@ -67,29 +67,29 @@ unordered_map<string, string> CsvReader::getRow() {
   return headerToRowCell;
 }
 
-
-CsvWriter::CsvWriter(std::ostream& outputStream, const std::vector<std::string>& headers) {
+CsvWriter::CsvWriter(std::ostream &outputStream,
+                     const std::vector<std::string> &headers) {
   this->outputStream = &outputStream;
   this->headers = headers;
-  for (const auto& header : headers) {
+  for (const auto &header : headers) {
     setCell(header, header);
   }
   endRow();
 }
 
-  void CsvWriter::setCell(const std::string& header, const std::string& value) {
-    headerToCellValue[header] = value;
-  }
+void CsvWriter::setCell(const std::string &header, const std::string &value) {
+  headerToCellValue[header] = value;
+}
 
-  void CsvWriter::endRow() {
-    bool firstLine = true;
-    for (const auto& header : headers) {
-      if (!firstLine) {
-        *outputStream << ",";
-      }
-      firstLine = false;
-      *outputStream << headerToCellValue.at(header);
-      setCell(header, "");
+void CsvWriter::endRow() {
+  bool firstLine = true;
+  for (const auto &header : headers) {
+    if (!firstLine) {
+      *outputStream << ",";
     }
-    *outputStream << endl;
+    firstLine = false;
+    *outputStream << headerToCellValue.at(header);
+    setCell(header, "");
   }
+  *outputStream << endl;
+}

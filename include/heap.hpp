@@ -33,7 +33,9 @@ template <typename T> class Heap {
     return childIndex;
   }
 
-  long double getWeight(long index) const { return (this->nodes2[index]).weight; }
+  long double getWeight(long index) const {
+    return (this->nodes2[index]).weight;
+  }
 
   void swap(long index1, long index2) {
     Node element = std::move(this->nodes2[index1]);
