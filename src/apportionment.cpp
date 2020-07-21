@@ -33,5 +33,6 @@ ApportionedSeat ApportionmentSession::apportionSeat() {
         this->stateNameToSeats[state.name]++;
         long double priorityNumber = this->calculatePriorityNumber(state);
         this->heap.add(state.name, priorityNumber);
-        return ApportionedSeat{state, -1, this->stateNameToSeats[state.name], priorityNumber};
+        return ApportionedSeat{state, this->stateNameToSeats[state.name], -1,
+         priorityNumber};
     }

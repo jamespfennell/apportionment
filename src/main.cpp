@@ -27,21 +27,30 @@ vector<State> readStates(CsvReader& csvReader, const string& nameHeader, const s
 int main()
 {
     ifstream rfile1;
-    rfile1.open("data/2000_populations.csv");
+    rfile1.open("data/2010_populations.csv");
     CsvReader csvReader = CsvReader(rfile1);
     string nameHeader = csvReader.getHeader(0);
     string populationHeader = csvReader.getHeader(1);
     vector<State> states = readStates(csvReader, nameHeader, populationHeader);
-    for (auto state: states) {
-        cout << state.name << " " << state.population << endl;
-    }
     rfile1.close();
 
+
+
+    unordered_map<string, int> stateNameToNumberOfSeats; 
+    for (const auto& state: states) {
+        stateNameToNumberOfSeats.insert(make_pair(state.name, 1));
+    }
     ApportionmentSession session = ApportionmentSession(states);
     for (int i=51; i<=435; i++) {
         ApportionedSeat apportionedSeat = session.apportionSeat();
-        cout << "Apportioned " << apportionedSeat.state.name << endl;
+        // cout << "Apportioned " << apportionedSeat.state.name << endl;
+        stateNameToNumberOfSeats[apportionedSeat.state.name] = apportionedSeat.stateSeat;
     }
 
-    return 0;
+    CsvWriter csvWriter = CsvWriter(cout, {"entity", "apportionment_435"});
+    for (const auto& state: states) {
+        csvWriter.setCell("entity", state.name);
+        csvWriter.setCell("apportionment_435", to_string(stateNameToNumberOfSeats.at(state.name)));
+        csvWriter.endRow();
+    }
 }

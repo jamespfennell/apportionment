@@ -11,3 +11,10 @@ build/apportionment.o: src/apportionment.cpp include/apportionment.hpp
 
 build/csv.o: src/csv.cpp include/csv.hpp
 	clang++ -std=c++11 -c src/csv.cpp -o build/csv.o
+
+clean:
+	rm -f bin/*
+	rm -f build/*
+
+
+.PHONY: clean

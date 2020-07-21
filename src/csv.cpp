@@ -66,3 +66,30 @@ unordered_map<string, string> CsvReader::getRow() {
   this->readNextLine();
   return headerToRowCell;
 }
+
+
+CsvWriter::CsvWriter(std::ostream& outputStream, const std::vector<std::string>& headers) {
+  this->outputStream = &outputStream;
+  this->headers = headers;
+  for (const auto& header : headers) {
+    setCell(header, header);
+  }
+  endRow();
+}
+
+  void CsvWriter::setCell(const std::string& header, const std::string& value) {
+    headerToCellValue[header] = value;
+  }
+
+  void CsvWriter::endRow() {
+    bool firstLine = true;
+    for (const auto& header : headers) {
+      if (!firstLine) {
+        *outputStream << ",";
+      }
+      firstLine = false;
+      *outputStream << headerToCellValue.at(header);
+      setCell(header, "");
+    }
+    *outputStream << endl;
+  }
