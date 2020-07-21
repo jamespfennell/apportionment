@@ -31,22 +31,16 @@ void writeApportionmentsToCsv(ostream& outputStream, const vector<State>& states
 const int& minApportionment, const int& maxApportionment) {
 
 
-    unordered_map<State, int> stateToNumberOfSeats; 
-    for (const auto& state: states) {
-        stateToNumberOfSeats.insert(make_pair(state, 1));
-    }
-     ApportionmentSession session = ApportionmentSession(states);
-    for (int i=states.size() + 1; i< minApportionment; i++) {
-        ApportionedSeat apportionedSeat = session.apportionSeat();
-        stateToNumberOfSeats[apportionedSeat.state] = apportionedSeat.stateSeat;
-    }
-
+    ApportionmentSession session = ApportionmentSession(states);
     unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment;
-    for (int i=minApportionment; i<= maxApportionment; i++) {
+    for (int i=states.size() + 1; i<= maxApportionment; i++) {
         ApportionedSeat apportionedSeat = session.apportionSeat();
-        stateToNumberOfSeats[apportionedSeat.state] = apportionedSeat.stateSeat;
+        if (i < minApportionment) {
+            continue;
+        }
+        const unordered_map<State, long>& stateToSeats = session.getCurrentApportionment();
         for(const auto& state: states) {
-            stateToNumSeatsToApportionment[state][i] = stateToNumberOfSeats[state];
+            stateToNumSeatsToApportionment[state][i] = stateToSeats.at(state);
         }
     }
 

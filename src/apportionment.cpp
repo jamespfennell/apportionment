@@ -25,6 +25,10 @@ long double ApportionmentSession::calculatePriorityNumber(const State& state) {
         long n = stateToSeats[state] * (1 + stateToSeats[state]);
         return state.population / sqrt(n);
     }
+    
+    const std::unordered_map<State, long>& ApportionmentSession::getCurrentApportionment() const {
+        return stateToSeats;
+    }
 
 ApportionedSeat ApportionmentSession::apportionSeat() {
         State state = this->heap.pop();

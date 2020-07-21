@@ -40,5 +40,7 @@ class ApportionmentSession {
     public:
     ApportionmentSession(std::vector<State> states);
 
+    const std::unordered_map<State, long>& getCurrentApportionment() const;
+
     ApportionedSeat apportionSeat();
 };
