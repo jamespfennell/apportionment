@@ -4,7 +4,6 @@
 struct State {
     std::string name;
     long long population;
-    long apportionment; // TODO: delete
 
       bool operator==(const State &other) const
   { return (name == other.name);
@@ -33,9 +32,8 @@ struct ApportionedSeat {
 };
 
 class ApportionmentSession {
-    std::unordered_map<std::string, long> stateNameToSeats;
-    std::unordered_map<std::string, State> stateNameToState;
-    Heap<std::string> heap;
+    std::unordered_map<State, long> stateToSeats;
+    Heap<State> heap;
 
     long double calculatePriorityNumber(const State& state);
 

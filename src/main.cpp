@@ -22,7 +22,6 @@ vector<State> readStatesFromCsv(CsvReader& csvReader, const string& nameHeader, 
     return states;
 }
 // NEXT STEPS
-// - write a hash function for state
 // - use this hash function everywhere
 // - expose a getCurrentApportionment in the ApportionmentSession return the map by const reference
 // - expost an apportionMultipleSeats(int numSeats);

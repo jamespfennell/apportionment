@@ -11,11 +11,10 @@
 using namespace std;
 // class IntegerOverRadical();
 
-ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSeats{}, stateNameToState{}, heap{} {
+ApportionmentSession::ApportionmentSession(vector<State> states): stateToSeats{}, heap{} {
         for (const auto& state : states) {
-            this->stateNameToSeats.insert(make_pair(state.name, 1));
-            this->stateNameToState.insert(make_pair(state.name, state));
-            this->heap.add(state.name, this->calculatePriorityNumber(state));
+            this->stateToSeats.insert(make_pair(state, 1));
+            this->heap.add(state, this->calculatePriorityNumber(state));
         }
     }
 
@@ -23,15 +22,15 @@ ApportionmentSession::ApportionmentSession(vector<State> states): stateNameToSea
 
 // TODO: rename calculateCurrentPriorityNumber
 long double ApportionmentSession::calculatePriorityNumber(const State& state) {
-        long n = stateNameToSeats[state.name] * (1 + stateNameToSeats[state.name]);
+        long n = stateToSeats[state] * (1 + stateToSeats[state]);
         return state.population / sqrt(n);
     }
 
 ApportionedSeat ApportionmentSession::apportionSeat() {
-        State state = this->stateNameToState.at(this->heap.pop());
-        this->stateNameToSeats[state.name]++;
+        State state = this->heap.pop();
+        this->stateToSeats[state]++;
         long double priorityNumber = this->calculatePriorityNumber(state);
-        this->heap.add(state.name, priorityNumber);
-        return ApportionedSeat{state, this->stateNameToSeats[state.name], -1,
+        this->heap.add(state, priorityNumber);
+        return ApportionedSeat{state, this->stateToSeats[state], -1,
          priorityNumber};
     }
