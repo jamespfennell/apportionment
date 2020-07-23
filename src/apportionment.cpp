@@ -40,6 +40,10 @@ class IntegerOverRadical {
   long long denominatorSquared;
 
 public:
+    operator std::string() const { 
+        return to_string(numerator) + " / sqrt(" + to_string(denominatorSquared) + ")";
+    }
+
   bool operator=(const IntegerOverRadical &other) const {
     long long a1 = this->numerator;
     long long b = this->denominatorSquared;
@@ -82,23 +86,30 @@ public:
   }
 };
 
-template <typename W> class HeapImpl : public ApportionmentSession::Impl {
-  std::unordered_map<State, long> stateToSeats;
-  Heap<State, W> heap;
-
-  ~HeapImpl() {}
-
-  // TODO: rename calculateCurrentPriorityNumber
-  long double calculatePriorityNumber(const State &state) const {
-    long n = stateToSeats.at(state) * (1 + stateToSeats.at(state));
+// rename calculateCurrentPriorityNumber
+  long double calculatePriorityNumberLong(const State &state, long seats) {
+    long n = seats * (1 + seats);
     return state.population / sqrt(n);
   }
 
+
+template <typename W> class HeapImpl : public ApportionmentSession::Impl {
+  std::unordered_map<State, long> stateToSeats;
+  Heap<State, W> heap;
+  W (*calculatePriorityNumber)(const State&, long);
+
+  // TODO: 
 public:
+
+    HeapImpl(W (*calculatePriorityNumber)(const State&, long)) {
+        this->calculatePriorityNumber = calculatePriorityNumber;
+    }
+ 
+  ~HeapImpl() {}
   void initialize(const vector<State> &states) {
     for (const auto &state : states) {
       this->stateToSeats.insert(make_pair(state, 1));
-      this->heap.add(state, this->calculatePriorityNumber(state));
+      this->heap.add(state, calculatePriorityNumber(state, 1));
     }
   }
 
@@ -109,15 +120,15 @@ public:
   ApportionedSeat apportionSeat() {
     State state = this->heap.pop();
     this->stateToSeats[state]++;
-    long double priorityNumber = this->calculatePriorityNumber(state);
+    W priorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
     this->heap.add(state, priorityNumber);
     return ApportionedSeat{state, this->stateToSeats[state], -1,
-                           priorityNumber};
+                           static_cast<long double>(priorityNumber)};
   }
 };
 
 ApportionmentSession::ApportionmentSession(const vector<State> &states) {
-  impl = std::unique_ptr<Impl>{new HeapImpl<long double>{}};
+  impl = std::unique_ptr<Impl>{new HeapImpl<long double>(&calculatePriorityNumberLong)};
   impl->initialize(states);
 }
 
