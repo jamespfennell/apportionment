@@ -5,7 +5,7 @@ COMPILE = clang++ -std=c++11 -stdlib=libc++
 bin/apportionment: build/main.o build/apportionment.o build/csv.o
 	$(COMPILE) build/*.o -o bin/apportionment
 
-build/main.o: src/main.cpp include/apportionment.hpp include/csv.hpp include/heap.hpp
+build/main.o: src/main.cpp include/apportionment.hpp include/csv.hpp
 	$(COMPILE) -c src/main.cpp -o build/main.o
 
 build/apportionment.o: src/apportionment.cpp include/apportionment.hpp include/heap.hpp

@@ -1,5 +1,6 @@
-
-#include "heap.hpp"
+#include <vector>
+#include <string>
+#include <unordered_map>
 
 struct State {
   std::string name;
@@ -23,45 +24,28 @@ struct ApportionedSeat {
   long double priorityNumber;
 };
 
-class ApportionmentSessionNew {
+class ApportionmentSession {
 public:
-    class Impl {
-        public:
-        virtual ~Impl(){};
-        void virtual initialize(const std::vector<State>& states) = 0;
-        const std::unordered_map<State, long> virtual &getCurrentApportionment() const = 0;
-        ApportionedSeat virtual apportionSeat() = 0;
- 
-    };
-
-// TODO: enum to select the implemntation?
-  ApportionmentSessionNew(const std::vector<State>& states);
-
-  const std::unordered_map<State, long> &getCurrentApportionment() const {
-      return (*impl).getCurrentApportionment();
+  class Impl {
+  public:
+    virtual ~Impl(){};
+    void virtual initialize(const std::vector<State> &states) = 0;
+    const std::unordered_map<State, long> virtual &
+    getCurrentApportionment() const = 0;
+    ApportionedSeat virtual apportionSeat() = 0;
   };
 
-  ApportionedSeat apportionSeat() {
-      return (*impl).apportionSeat();
-  }
+  // TODO: enum to select the implemntation?
+  ApportionmentSession(const std::vector<State> &states);
 
-  private:
-    std::unique_ptr<Impl> impl;
-};
+  const std::unordered_map<State, long> &getCurrentApportionment() const {
+    return (*impl).getCurrentApportionment();
+  };
 
+  ApportionedSeat apportionSeat() { return (*impl).apportionSeat(); }
 
-class ApportionmentSession {
-  std::unordered_map<State, long> stateToSeats;
-  Heap<State, long double> heap;
-
-  long double calculatePriorityNumber(const State &state);
-
-public:
-  ApportionmentSession(std::vector<State> states);
-
-  const std::unordered_map<State, long> &getCurrentApportionment() const;
-
-  ApportionedSeat apportionSeat();
+private:
+  std::unique_ptr<Impl> impl;
 };
 
 std::unordered_map<State, std::unordered_map<int, int>>
