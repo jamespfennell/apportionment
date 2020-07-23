@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 
-
 template <typename T, typename W> class Heap {
 
   struct Node {
@@ -20,7 +19,7 @@ template <typename T, typename W> class Heap {
 
   long leftChildIndex(long parentIndex) const {
     long childIndex = 2 * parentIndex + 1;
-    if (childIndex >= this->nodes.size()) {
+    if (childIndex >= nodes.size()) {
       return -1;
     }
     return childIndex;
@@ -28,31 +27,30 @@ template <typename T, typename W> class Heap {
 
   long rightChildIndex(long parentIndex) const {
     long childIndex = 2 * parentIndex + 2;
-    if (childIndex >= this->nodes.size()) {
+    if (childIndex >= nodes.size()) {
       return -1;
     }
     return childIndex;
   }
 
-  W getWeight(long index) const {
-    return (this->nodes[index]).weight;
+  bool lessThan(long index1, long index2) const {
+    return nodes[index1].weight <= nodes[index2].weight;
   }
 
   void swap(long index1, long index2) {
-    Node element = std::move(this->nodes[index1]);
-    this->nodes[index1] = std::move(this->nodes[index2]);
-    this->nodes[index2] = std::move(element);
+    Node element = std::move(nodes[index1]);
+    nodes[index1] = std::move(nodes[index2]);
+    nodes[index2] = std::move(element);
   }
 
 public:
   T pop() {
     // Check for no elements! Otherwise get a seg fault
-    long lastIndex = this->nodes.size() - 1;
+    long lastIndex = nodes.size() - 1;
     if (nodes.size() > 1) {
-      this->swap(0, lastIndex);
+      swap(0, lastIndex);
     }
-    T result2 =
-        std::move((this->nodes[lastIndex]).element); // [lastIndex].element;
+    T result = std::move((nodes[lastIndex]).element); // [lastIndex].element;
     this->nodes.pop_back();
 
     long parentIndex = 0;
@@ -64,23 +62,20 @@ public:
         childIndex = rightChildIndex;
       } else if (rightChildIndex < 0) {
         childIndex = leftChildIndex;
-      } else if (getWeight(leftChildIndex) < getWeight(rightChildIndex)) {
+      } else if (lessThan(leftChildIndex, rightChildIndex)) {
         childIndex = rightChildIndex;
       } else {
         childIndex = leftChildIndex;
       }
-      if (getWeight(childIndex) <= getWeight(parentIndex)) {
+      if (lessThan(childIndex, parentIndex)) {
         break;
       }
-      this->swap(childIndex, parentIndex);
+      swap(childIndex, parentIndex);
       parentIndex = childIndex;
       leftChildIndex = this->leftChildIndex(parentIndex);
       rightChildIndex = this->rightChildIndex(parentIndex);
-      // cout << parentIndex << " " << leftChildIndex <<  "inf loop!" << endl;
     }
-
-    // re-adjust the heap
-    return result2;
+    return result;
   }
 
   // TODO: T=unique_ptr won't work here I think
@@ -91,9 +86,8 @@ public:
     nodes.push_back(Node{element, weight});
     long childIndex = nodes.size() - 1;
     long parentIndex = this->parentIndex(childIndex);
-    while (parentIndex >= 0 and (this->nodes[parentIndex]).weight <
-                                    (this->nodes[childIndex]).weight) {
-      this->swap(parentIndex, childIndex);
+    while (parentIndex >= 0 and lessThan(parentIndex, childIndex)) {
+      swap(parentIndex, childIndex);
       childIndex = parentIndex;
       parentIndex = this->parentIndex(childIndex);
     }
