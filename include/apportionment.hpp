@@ -25,7 +25,7 @@ struct ApportionedSeat {
 
 class ApportionmentSession {
   std::unordered_map<State, long> stateToSeats;
-  Heap<State> heap;
+  Heap<State, long double> heap;
 
   long double calculatePriorityNumber(const State &state);
 

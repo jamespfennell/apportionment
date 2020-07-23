@@ -2,14 +2,14 @@
 #include <vector>
 
 
-template <typename T> class Heap {
+template <typename T, typename W> class Heap {
 
   struct Node {
     T element;
-    long double weight;
+    W weight;
   };
 
-  std::vector<Node> nodes2;
+  std::vector<Node> nodes;
 
   long parentIndex(long childIndex) const {
     if (childIndex == 0) {
@@ -20,7 +20,7 @@ template <typename T> class Heap {
 
   long leftChildIndex(long parentIndex) const {
     long childIndex = 2 * parentIndex + 1;
-    if (childIndex >= this->nodes2.size()) {
+    if (childIndex >= this->nodes.size()) {
       return -1;
     }
     return childIndex;
@@ -28,32 +28,32 @@ template <typename T> class Heap {
 
   long rightChildIndex(long parentIndex) const {
     long childIndex = 2 * parentIndex + 2;
-    if (childIndex >= this->nodes2.size()) {
+    if (childIndex >= this->nodes.size()) {
       return -1;
     }
     return childIndex;
   }
 
-  long double getWeight(long index) const {
-    return (this->nodes2[index]).weight;
+  W getWeight(long index) const {
+    return (this->nodes[index]).weight;
   }
 
   void swap(long index1, long index2) {
-    Node element = std::move(this->nodes2[index1]);
-    this->nodes2[index1] = std::move(this->nodes2[index2]);
-    this->nodes2[index2] = std::move(element);
+    Node element = std::move(this->nodes[index1]);
+    this->nodes[index1] = std::move(this->nodes[index2]);
+    this->nodes[index2] = std::move(element);
   }
 
 public:
   T pop() {
     // Check for no elements! Otherwise get a seg fault
-    long lastIndex = this->nodes2.size() - 1;
-    if (nodes2.size() > 1) {
+    long lastIndex = this->nodes.size() - 1;
+    if (nodes.size() > 1) {
       this->swap(0, lastIndex);
     }
     T result2 =
-        std::move((this->nodes2[lastIndex]).element); // [lastIndex].element;
-    this->nodes2.pop_back();
+        std::move((this->nodes[lastIndex]).element); // [lastIndex].element;
+    this->nodes.pop_back();
 
     long parentIndex = 0;
     long leftChildIndex = this->leftChildIndex(parentIndex);
@@ -87,12 +87,12 @@ public:
   // Maybe pass by R value reference?
   // Could also have addCopy
   // or pass by regulare reference and do the move itself
-  void add(T element, double weight) {
-    nodes2.push_back(Node{element, weight});
-    long childIndex = nodes2.size() - 1;
+  void add(T element, W weight) {
+    nodes.push_back(Node{element, weight});
+    long childIndex = nodes.size() - 1;
     long parentIndex = this->parentIndex(childIndex);
-    while (parentIndex >= 0 and (this->nodes2[parentIndex]).weight <
-                                    (this->nodes2[childIndex]).weight) {
+    while (parentIndex >= 0 and (this->nodes[parentIndex]).weight <
+                                    (this->nodes[childIndex]).weight) {
       this->swap(parentIndex, childIndex);
       childIndex = parentIndex;
       parentIndex = this->parentIndex(childIndex);
