@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-
+#include <memory>
 #include "../include/apportionment.hpp"
 
 using namespace std;
@@ -82,6 +82,47 @@ class IntegerOverRadical {
 
 };
 
+template <typename W> class HeapImpl: public ApportionmentSessionNew::Impl {
+  std::unordered_map<State, long> stateToSeats;
+  Heap<State, W> heap;
+
+    ~HeapImpl(){}
+
+// TODO: rename calculateCurrentPriorityNumber
+long double calculatePriorityNumber(const State &state) const {
+  long n = stateToSeats.at(state) * (1 + stateToSeats.at(state));
+  return state.population / sqrt(n);
+}
+
+
+public:
+void initialize(const vector<State>& states) {
+      for (const auto &state : states) {
+    this->stateToSeats.insert(make_pair(state, 1));
+    this->heap.add(state, this->calculatePriorityNumber(state));
+  }
+}
+
+const std::unordered_map<State, long> &
+getCurrentApportionment() const {
+  return stateToSeats;
+}
+
+ApportionedSeat apportionSeat() {
+  State state = this->heap.pop();
+  this->stateToSeats[state]++;
+  long double priorityNumber = this->calculatePriorityNumber(state);
+  this->heap.add(state, priorityNumber);
+  return ApportionedSeat{state, this->stateToSeats[state], -1, priorityNumber};
+}
+};
+
+
+ApportionmentSessionNew::ApportionmentSessionNew(const vector<State>& states) {
+    impl = std::unique_ptr<Impl>{new HeapImpl<long double>{}};
+    impl->initialize(states);
+}
+
 
 
 ApportionmentSession::ApportionmentSession(vector<State> states)
@@ -115,7 +156,7 @@ unordered_map<State, unordered_map<int, int>>
 buildApportionments(const vector<State> &states, const int &minApportionment,
                     const int &maxApportionment) {
 
-  ApportionmentSession session = ApportionmentSession(states);
+  ApportionmentSessionNew session = ApportionmentSessionNew(states);
   unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment;
   const unordered_map<State, long> &stateToSeats =
       session.getCurrentApportionment();
