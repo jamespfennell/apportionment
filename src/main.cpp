@@ -24,6 +24,7 @@ vector<State> readStatesFromCsv(CsvReader &csvReader, const string &nameHeader,
 // NEXT STEPS
 // - write CSV priortiy outputter
 // - accept command line arguments
+// - unsigned long long wherever possible. Document limitations!
 
 void writeApportionmentsAsCsv(ostream &outputStream,
                               const vector<State> &states,

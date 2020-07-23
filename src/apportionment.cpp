@@ -1,5 +1,6 @@
 
 #include <cmath>
+#include <limits>
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -8,7 +9,80 @@
 #include "../include/apportionment.hpp"
 
 using namespace std;
-// class IntegerOverRadical();
+
+
+
+bool willOverflow(long long a, long long b) {
+    return a >= numeric_limits<long long>::max() / b;
+}
+
+bool willOverflow(long long a, long long b, long long c) {
+    return willOverflow(a, b) or willOverflow(a * b, c);
+}
+
+long long gcd(long long a, long long b) {
+    long long c;
+    while (b != 0) {
+        c = a % b;
+        a = a / b;
+        b = c;
+    }
+    return a;
+}
+
+void reduce(long long& a, long long& b) {
+    long long g = gcd(a, b);
+    a /= g;
+    b /= g;
+}
+
+class IntegerOverRadical {
+    long long numerator;
+    long long denominatorSquared;
+
+    public:
+    bool operator =(const IntegerOverRadical &other) const {
+        long long a1 = this->numerator;
+        long long b = this->denominatorSquared;
+        long long c1 = other.numerator;
+        long long d = other.denominatorSquared;
+        reduce(b, d);
+        reduce(a1, c1);
+        long long a2 = a1;
+        long long c2 = c1;
+        reduce(a1, b);
+        reduce(a2, b);
+        reduce(c1, d);
+        reduce(c2, d);
+        return (not willOverflow(a1, a2, d) and not willOverflow(c1, c2, b) and a1 * a2 * d == 1 and c1 * c2 * b == 1);
+    }
+
+
+    bool operator <(const IntegerOverRadical &other) const {
+        long long a = this->numerator;
+        long long b = this->denominatorSquared;
+        long long c = other.numerator;
+        long long d = other.denominatorSquared;
+        reduce(b, d);
+        if (willOverflow(a, a, d)) {
+            if (willOverflow(c, c, d)) {
+                // TODO: this incorrectly uses integer division
+                return (static_cast<long double>(a) / c) * (static_cast<long double>(a) / c) < static_cast<long double>(b) / d;
+            } else {
+                return true;
+            }
+        } else {
+            if (willOverflow(c, c, d)) {
+                return false;
+            } else {
+                return a * a * d < c * c * b;
+            }
+        }
+    }
+
+};
+
+
 
 ApportionmentSession::ApportionmentSession(vector<State> states)
     : stateToSeats{}, heap{} {
