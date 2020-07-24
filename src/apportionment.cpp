@@ -22,10 +22,12 @@ bool willOverflow(long long a, long long b, long long c) {
 long long gcd(long long a, long long b) {
   long long c;
   while (b != 0) {
+    // cout << "Computing " << a << " " << b << " " << c  << endl;
     c = a % b;
-    a = a / b;
+    a = b;
     b = c;
   }
+  // cout << "GCD " << a << " " << b << " " << c << endl;
   return a;
 }
 
@@ -36,75 +38,116 @@ void reduce(long long &a, long long &b) {
 }
 
 class IntegerOverRadical {
+
+  struct ReducedForm {
+    long long a1;
+    long long a2;
+    long long b;
+    long long c1;
+    long long c2;
+    long long d;
+
+    ReducedForm(const IntegerOverRadical &ior1, const IntegerOverRadical &ior2)
+        : a1{ior1.numerator}, b{ior1.denominatorSquared}, c1{ior2.numerator},
+          d{ior2.denominatorSquared} {
+      //reduce(b, d);
+      //reduce(a1, c1);
+      a2 = a1;
+      c2 = c1;
+      //reduce(a1, b);
+      //reduce(a2, b);
+      //reduce(c1, d);
+      //reduce(c2, d);
+    }
+  };
+
+public:
   long long numerator;
   long long denominatorSquared;
 
-public:
-    operator std::string() const { 
-        return to_string(numerator) + " / sqrt(" + to_string(denominatorSquared) + ")";
-    }
+ // IntegerOverRadical(long long numerator, long long denominatorSquared)
+   //   : numerator{numerator}, denominatorSquared{denominatorSquared} {
+     // };
+     /*
+     IntegerOverRadical& operator=(IntegerOverRadical&& other)
+{
+  return *this;
+}*/
+  operator std::string() const {
+    return to_string(numerator) + " / sqrt(" + to_string(denominatorSquared) +
+           ")";
+  }
 
   bool operator=(const IntegerOverRadical &other) const {
-    long long a1 = this->numerator;
-    long long b = this->denominatorSquared;
-    long long c1 = other.numerator;
-    long long d = other.denominatorSquared;
-    reduce(b, d);
-    reduce(a1, c1);
-    long long a2 = a1;
-    long long c2 = c1;
-    reduce(a1, b);
-    reduce(a2, b);
-    reduce(c1, d);
-    reduce(c2, d);
-    return (not willOverflow(a1, a2, d) and not willOverflow(c1, c2, b) and
-            a1 * a2 * d == 1 and c1 * c2 * b == 1);
+    /*
+     * The implementation here is based on the idea that if a^2 * d = c^2 * d,
+     * then by finding all common factors of both sides (which we can do without
+     * performing the multiplications) and then removing these from each side
+     * will reduce the equation to 1 = 1.
+     */
+    ReducedForm reducedForm = ReducedForm(*this, other);
+    return (not willOverflow(reducedForm.a1, reducedForm.a2, reducedForm.d) and
+            not willOverflow(reducedForm.c1, reducedForm.c2, reducedForm.b) and
+            reducedForm.a1 * reducedForm.a2 * reducedForm.d == 1 and
+            reducedForm.c1 * reducedForm.c2 * reducedForm.b == 1);
   }
 
-  bool operator<(const IntegerOverRadical &other) const {
-    long long a = this->numerator;
-    long long b = this->denominatorSquared;
-    long long c = other.numerator;
-    long long d = other.denominatorSquared;
-    reduce(b, d);
-    if (willOverflow(a, a, d)) {
-      if (willOverflow(c, c, d)) {
-        // TODO: this incorrectly uses integer division
-        return (static_cast<long double>(a) / c) *
-                   (static_cast<long double>(a) / c) <
-               static_cast<long double>(b) / d;
+  // TODO, can actually make this <=
+  bool operator<=(const IntegerOverRadical &other) const {
+    //cout << "Comparing " << endl;
+    //cout << this->numerator << "/sqrt(" << this->denominatorSquared << ") " << endl;
+    //cout << other.numerator << "/sqrt(" << other.denominatorSquared << ") " << endl;
+    ReducedForm reducedForm = ReducedForm(*this, other);
+    if (willOverflow(reducedForm.a1, reducedForm.a2, reducedForm.d)) {
+      if (willOverflow(reducedForm.c1, reducedForm.c2, reducedForm.b)) {
+        cout << "Failed to use integer arithmetic..." << endl;
+        return (static_cast<long double>(reducedForm.a1) / reducedForm.c1) *
+                   (static_cast<long double>(reducedForm.a2) / reducedForm.c2) <=
+               static_cast<long double>(reducedForm.b) / reducedForm.d;
       } else {
-        return true;
+        return false;
       }
     } else {
-      if (willOverflow(c, c, d)) {
-        return false;
+      if (willOverflow(reducedForm.c1, reducedForm.c2, reducedForm.b)) {
+        return true;
       } else {
-        return a * a * d < c * c * b;
+        return reducedForm.a1 * reducedForm.a2 * reducedForm.d <=
+               reducedForm.c1 * reducedForm.c2 * reducedForm.b;
       }
     }
   }
+
+  operator long double() const { 
+    return numerator / sqrt(denominatorSquared); 
+    }
+ 
 };
 
-// rename calculateCurrentPriorityNumber
-  long double calculatePriorityNumberLong(const State &state, long seats) {
-    long n = seats * (1 + seats);
-    return state.population / sqrt(n);
-  }
+IntegerOverRadical calculatePriorityNumberIOR(const State &state, long seats) {
+  IntegerOverRadical ior;
 
+
+  long long a = state.population;
+  return IntegerOverRadical{a, seats * (1 + seats)};
+}
+
+// rename calculateCurrentPriorityNumber
+long double calculatePriorityNumberLong(const State &state, long seats) {
+  long n = seats * (1 + seats);
+  return state.population / sqrt(n);
+}
 
 template <typename W> class HeapImpl : public ApportionmentSession::Impl {
   std::unordered_map<State, long> stateToSeats;
   Heap<State, W> heap;
-  W (*calculatePriorityNumber)(const State&, long);
+  W (*calculatePriorityNumber)(const State &, long);
 
-  // TODO: 
+  // TODO:
 public:
+  HeapImpl(W (*calculatePriorityNumber)(const State &, long)) {
+    this->calculatePriorityNumber = calculatePriorityNumber;
+  }
 
-    HeapImpl(W (*calculatePriorityNumber)(const State&, long)) {
-        this->calculatePriorityNumber = calculatePriorityNumber;
-    }
- 
   ~HeapImpl() {}
   void initialize(const vector<State> &states) {
     for (const auto &state : states) {
@@ -118,7 +161,9 @@ public:
   }
 
   ApportionedSeat apportionSeat() {
+    cout << "A1" << endl;
     State state = this->heap.pop();
+    cout << "Apportioning " << state.name << endl;
     this->stateToSeats[state]++;
     W priorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
     this->heap.add(state, priorityNumber);
@@ -128,7 +173,12 @@ public:
 };
 
 ApportionmentSession::ApportionmentSession(const vector<State> &states) {
-  impl = std::unique_ptr<Impl>{new HeapImpl<long double>(&calculatePriorityNumberLong)};
+   //impl = std::unique_ptr<Impl>{
+     // new HeapImpl<long double>(&calculatePriorityNumberLong)};
+  cout << "B1" << endl;
+  impl = std::unique_ptr<Impl>{
+    new HeapImpl<IntegerOverRadical>(&calculatePriorityNumberIOR)};
+  cout << "B2" << endl;
   impl->initialize(states);
 }
 
@@ -136,10 +186,13 @@ unordered_map<State, unordered_map<int, int>>
 buildApportionments(const vector<State> &states, const int &minApportionment,
                     const int &maxApportionment) {
 
+    cout << "A" << endl;
   ApportionmentSession session = ApportionmentSession(states);
+    cout << "A2" << endl;
   unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment;
   const unordered_map<State, long> &stateToSeats =
       session.getCurrentApportionment();
+    cout << "A3" << endl;
   for (int i = states.size() + 1; i <= maxApportionment; i++) {
     ApportionedSeat apportionedSeat = session.apportionSeat();
     if (i < minApportionment) {

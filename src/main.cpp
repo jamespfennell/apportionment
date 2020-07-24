@@ -30,9 +30,10 @@ void writeApportionmentsAsCsv(ostream &outputStream,
                               const vector<State> &states,
                               const int &minApportionment,
                               const int &maxApportionment) {
-
+cout << "Here1" << endl;
   unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment =
       buildApportionments(states, minApportionment, maxApportionment);
+cout << "Here2" << endl;
 
   vector<string> headers = {"entity"};
   for (int i = minApportionment; i <= maxApportionment; i++) {
@@ -60,6 +61,7 @@ int main() {
       readStatesFromCsv(csvReader, nameHeader, populationHeader);
   rfile1.close();
 
-  writeApportionmentsAsCsv(cout, states, 435, 435);
+  // writeApportionmentsAsCsv(cout, states, 435, 435);
+  writeApportionmentsAsCsv(cout, states, 51, 51);
   return 0;
 }
