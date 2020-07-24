@@ -38,26 +38,20 @@ template <typename T, typename W> class Heap {
   }
 
   void swap(long index1, long index2) {
-    std::cout << "L  weight " << nodes[index1].weight << " " << nodes[index1].element.name << std::endl;
-    std::cout << "R  weight " << nodes[index2].weight << " " << nodes[index2].element.name << std::endl;
     Node element = std::move(nodes[index1]);
     nodes[index1] = std::move(nodes[index2]);
     nodes[index2] = std::move(element);
-    std::cout << "L' weight " << nodes[index1].weight <<" " << nodes[index1].element.name <<  std::endl;
-    std::cout << "R' weight " << nodes[index2].weight << " " << nodes[index2].element.name << std::endl;
   }
 
 public:
   T pop() {
     for (const auto& node: nodes ) {
-      std::cout << node.element.name << " " << node.weight<< std::endl;
     }
     // Check for no elements! Otherwise get a seg fault
     long lastIndex = nodes.size() - 1;
     if (nodes.size() > 1) {
       swap(0, lastIndex);
     }
-    std::cout << "POPPING " << nodes[lastIndex].weight << " " << nodes[lastIndex].element.name << std::endl;
     T result = std::move((nodes[lastIndex]).element); // [lastIndex].element;
     this->nodes.pop_back();
 
@@ -91,7 +85,6 @@ public:
   // Could also have addCopy
   // or pass by regulare reference and do the move itself
   void add(T element, W weight) {
-      std::cout <<"ADDING " << std::fixed << weight<<  element.name << " " << std::endl;
     nodes.push_back(Node{element, weight});
     long childIndex = nodes.size() - 1;
     long parentIndex = this->parentIndex(childIndex);

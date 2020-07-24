@@ -30,10 +30,8 @@ void writeApportionmentsAsCsv(ostream &outputStream,
                               const vector<State> &states,
                               const int &minApportionment,
                               const int &maxApportionment) {
-cout << "Here1" << endl;
   unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment =
       buildApportionments(states, minApportionment, maxApportionment);
-cout << "Here2" << endl;
 
   vector<string> headers = {"entity"};
   for (int i = minApportionment; i <= maxApportionment; i++) {

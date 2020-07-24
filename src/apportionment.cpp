@@ -22,12 +22,10 @@ bool willOverflow(long long a, long long b, long long c) {
 long long gcd(long long a, long long b) {
   long long c;
   while (b != 0) {
-    // cout << "Computing " << a << " " << b << " " << c  << endl;
     c = a % b;
     a = b;
     b = c;
   }
-  // cout << "GCD " << a << " " << b << " " << c << endl;
   return a;
 }
 
@@ -93,13 +91,10 @@ public:
 
   // TODO, can actually make this <=
   bool operator<=(const IntegerOverRadical &other) const {
-    //cout << "Comparing " << endl;
-    //cout << this->numerator << "/sqrt(" << this->denominatorSquared << ") " << endl;
-    //cout << other.numerator << "/sqrt(" << other.denominatorSquared << ") " << endl;
     ReducedForm reducedForm = ReducedForm(*this, other);
     if (willOverflow(reducedForm.a1, reducedForm.a2, reducedForm.d)) {
       if (willOverflow(reducedForm.c1, reducedForm.c2, reducedForm.b)) {
-        cout << "Failed to use integer arithmetic..." << endl;
+        cerr << "Failed to use integer arithmetic..." << endl;
         return (static_cast<long double>(reducedForm.a1) / reducedForm.c1) *
                    (static_cast<long double>(reducedForm.a2) / reducedForm.c2) <=
                static_cast<long double>(reducedForm.b) / reducedForm.d;
@@ -160,9 +155,7 @@ public:
   }
 
   ApportionedSeat apportionSeat() {
-    cout << "A1" << endl;
     State state = this->heap.pop();
-    cout << "Apportioning " << state.name << endl;
     this->stateToSeats[state]++;
     W priorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
     this->heap.add(state, priorityNumber);
@@ -174,10 +167,8 @@ public:
 ApportionmentSession::ApportionmentSession(const vector<State> &states) {
    //impl = std::unique_ptr<Impl>{
      // new HeapImpl<long double>(&calculatePriorityNumberLong)};
-  cout << "B1" << endl;
   impl = std::unique_ptr<Impl>{
     new HeapImpl<IntegerOverRadical>(&calculatePriorityNumberIOR)};
-  cout << "B2" << endl;
   impl->initialize(states);
 }
 
@@ -185,13 +176,10 @@ unordered_map<State, unordered_map<int, int>>
 buildApportionments(const vector<State> &states, const int &minApportionment,
                     const int &maxApportionment) {
 
-    cout << "A" << endl;
   ApportionmentSession session = ApportionmentSession(states);
-    cout << "A2" << endl;
   unordered_map<State, unordered_map<int, int>> stateToNumSeatsToApportionment;
   const unordered_map<State, long> &stateToSeats =
       session.getCurrentApportionment();
-    cout << "A3" << endl;
   for (int i = states.size() + 1; i <= maxApportionment; i++) {
     ApportionedSeat apportionedSeat = session.apportionSeat();
     if (i < minApportionment) {
@@ -202,15 +190,5 @@ buildApportionments(const vector<State> &states, const int &minApportionment,
     }
   }
 
-  cout << "TESTING " << endl;
-  IntegerOverRadical a = IntegerOverRadical{1, 2};
-  IntegerOverRadical b = IntegerOverRadical{2, 3};
-  cout << "a" << " " << static_cast<long double>(a) << endl;
-  cout << "b" << " " << static_cast<long double>(b) << endl;
-  IntegerOverRadical c = a; //;move(a);
-  a = b; // move(b);
-  b = c; //move(c);
-  cout << "a" << " " << static_cast<long double>(a) << endl;
-  cout << "b" << " " << static_cast<long double>(b) << endl;
   return stateToNumSeatsToApportionment;
 }
