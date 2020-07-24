@@ -38,7 +38,6 @@ void reduce(long long &a, long long &b) {
 }
 
 class IntegerOverRadical {
-
   struct ReducedForm {
     long long a1;
     long long a2;
@@ -78,7 +77,7 @@ public:
            ")";
   }
 
-  bool operator=(const IntegerOverRadical &other) const {
+  bool operator==(const IntegerOverRadical &other) const {
     /*
      * The implementation here is based on the idea that if a^2 * d = c^2 * d,
      * then by finding all common factors of both sides (which we can do without
@@ -202,5 +201,16 @@ buildApportionments(const vector<State> &states, const int &minApportionment,
       stateToNumSeatsToApportionment[state][i] = stateToSeats.at(state);
     }
   }
+
+  cout << "TESTING " << endl;
+  IntegerOverRadical a = IntegerOverRadical{1, 2};
+  IntegerOverRadical b = IntegerOverRadical{2, 3};
+  cout << "a" << " " << static_cast<long double>(a) << endl;
+  cout << "b" << " " << static_cast<long double>(b) << endl;
+  IntegerOverRadical c = a; //;move(a);
+  a = b; // move(b);
+  b = c; //move(c);
+  cout << "a" << " " << static_cast<long double>(a) << endl;
+  cout << "b" << " " << static_cast<long double>(b) << endl;
   return stateToNumSeatsToApportionment;
 }

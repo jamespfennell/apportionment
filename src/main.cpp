@@ -61,7 +61,7 @@ int main() {
       readStatesFromCsv(csvReader, nameHeader, populationHeader);
   rfile1.close();
 
-  // writeApportionmentsAsCsv(cout, states, 435, 435);
-  writeApportionmentsAsCsv(cout, states, 51, 51);
+  writeApportionmentsAsCsv(cout, states, 435, 435);
+  //writeApportionmentsAsCsv(cout, states, 51, 51);
   return 0;
 }
