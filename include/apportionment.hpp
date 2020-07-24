@@ -15,13 +15,18 @@ template <> struct hash<State> {
     return hash<std::string>()(state.name);
   }
 };
-} // namespace std
+}
 
 struct ApportionedSeat {
   State state;
   long stateSeat;
   long houseSeat;
   long double priorityNumber;
+
+};
+
+enum class ArithmeticMethod {
+  EXACT, CENSUS_BUREAU
 };
 
 class ApportionmentSession {
@@ -36,7 +41,7 @@ public:
   };
 
   // TODO: enum to select the implemntation?
-  ApportionmentSession(const std::vector<State> &states);
+  ApportionmentSession(const std::vector<State> &states, ArithmeticMethod arithmeticMethod);
 
   const std::unordered_map<State, long> &getCurrentApportionment() const {
     return (*impl).getCurrentApportionment();
@@ -50,4 +55,6 @@ private:
 
 std::unordered_map<State, std::unordered_map<int, int>>
 buildApportionments(const std::vector<State> &states,
-                    const int &minApportionment, const int &maxApportionment);
+                    const int &minApportionment, 
+                    const int &maxApportionment, 
+                    ArithmeticMethod arithmeticMethod);
