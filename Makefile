@@ -1,5 +1,5 @@
 
-COMPILE = clang++ -std=c++11 -stdlib=libc++ 
+COMPILE = clang++ -std=c++14 -stdlib=libc++ 
 # clang++ -std=c++11 -c src/* -MM
 
 bin/apportionment: build/main.o build/apportionment.o build/csv.o
