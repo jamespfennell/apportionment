@@ -23,8 +23,8 @@ vector<State> readStatesFromCsv(CsvReader &csvReader, const string &nameHeader,
   return states;
 }
 // NEXT STEPS
+// - verify historical apportionments!
 // - write CSV priortiy outputter
-// - accept command line arguments
 // - unsigned long long wherever possible. Document limitations!
 
 void writeApportionmentsAsCsv(ostream &outputStream,

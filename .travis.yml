@@ -6,5 +6,5 @@ script:
   - mkdir build
   - mkdir bin
   - make
-  - ./bin/apportionment > 2010_now.csv
+  - ./bin/apportionment -i data/2010_populations.csv > 2010_now.csv
   - diff data/2010_apportionment.csv 2010_now.csv
