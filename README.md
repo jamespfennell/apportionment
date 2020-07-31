@@ -60,7 +60,7 @@ When verifying historical apportionments, the following are important to note.
         algorithm because the priority values can be 
         different depending on the precision in use, and
     (b) in certain _highly unlikely_ scenarios the calculated apportionment
-        may be incorrect because of rounding erros.
+        may be incorrect because of rounding errors.
     This application does not in general use floating point arithmetic
     but rather solves the problem exactly.
 
@@ -68,12 +68,12 @@ When verifying historical apportionments, the following are important to note.
 
 The Huntington–Hill method does actually require calculating the priority values.
 To select the state with the largest priority value, it is only necessary to 
-be able to compare priority values and choose the larger one.
+be able to _compare_ priority values and choose the larger one.
 Given two priority values of the form 
 `P1 / sqrt(n1 * (n1 + 1))` and
 `P2 / sqrt(n2 * (n2 + 1))`, the first is larger if and only if:
 
-    P1 * sqrt(n2 * (n2 + 1)) > / P2 * sqrt(n1 * (n1 + 1))
+    P1 * sqrt(n2 * (n2 + 1)) > P2 * sqrt(n1 * (n1 + 1))
 
 Squaring both sides, this is true if and only if:
 
