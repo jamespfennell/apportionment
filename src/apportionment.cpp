@@ -112,7 +112,9 @@ return *this;
     }
   }
 
-  operator long double() const { return numerator / sqrt(denominatorSquared); }
+  operator long double() const { 
+    return numerator / sqrt(denominatorSquared); 
+    }
 };
 
 IntegerOverRadical calculatePriorityNumberIOR(const State &state, long seats) {
@@ -153,11 +155,12 @@ public:
 
   ApportionedSeat apportionSeat() {
     State state = this->heap.pop();
+    W oldPriorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
     this->stateToSeats[state]++;
     W priorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
     this->heap.add(state, priorityNumber);
     return ApportionedSeat{state, this->stateToSeats[state], -1,
-                           static_cast<long double>(priorityNumber)};
+                           static_cast<long double>(oldPriorityNumber)};
   }
 };
 

@@ -51,6 +51,27 @@ void writeApportionmentsAsCsv(ostream &outputStream,
   }
 }
 
+void writeSeatBySeatAsCsv(ostream &outputStream,
+                              const vector<State> &states,
+                              const int &maxApportionment) {
+  ApportionmentSession session(states, ArithmeticMethod::EXACT);      
+
+    vector<string> headers = {"entity", "entity_seat", "house_seat", "priority_value"};
+  CsvWriter csvWriter = CsvWriter(outputStream, headers);
+
+    for (int i = states.size() + 1; i <= maxApportionment; i++) {
+      ApportionedSeat apportionedSeat = session.apportionSeat();
+    csvWriter.setCell("entity", apportionedSeat.state.name);
+    csvWriter.setCell("entity_seat", to_string(apportionedSeat.stateSeat));
+    csvWriter.setCell("house_seat", to_string(apportionedSeat.houseSeat));
+    csvWriter.setCell("priority_value", to_string(apportionedSeat.priorityNumber));
+    csvWriter.endRow();
+    }
+ }
+
+
+
+
 class Options {
 
   ifstream inputFile;
@@ -58,6 +79,7 @@ class Options {
 
 public:
 
+  bool seatBySeat;
   std::string stateName;
   std::string popName;
   long minSeats;
@@ -132,6 +154,11 @@ public:
       popName = (*csvReader).getHeader(1);
     }
 
+    if (result.count("seat-by-seat")) {
+      seatBySeat = true;
+    } else {
+      seatBySeat = false;
+    }
 
   }
 
@@ -149,6 +176,7 @@ int main(int argc, char *argv[]) {
 
   //writeApportionmentsAsCsv(cout, states, result["min"].as<int>(),
   //                         result["max"].as<int>());
-  writeApportionmentsAsCsv(cout, states, options.minSeats, options.maxSeats);
+  //writeApportionmentsAsCsv(cout, states, options.minSeats, options.maxSeats);
+  writeSeatBySeatAsCsv(cout, states, options.maxSeats);
   return 0;
 }
