@@ -5,6 +5,7 @@ This method is currently used for apportioning the United States House of Repres
 Moreover, with an additional assignment of two seats per State and three for the District of Columbia,
     this method also determines the apportionment of the US Electoral College.
 
+The program takes an input CSV containing populations and
 By default, the program runs like a classic Unix utility, 
     reading an input CSV containing populations from stdin, 
     and printing an output CSV containing apportionments to stdout:
@@ -23,14 +24,44 @@ The number of seats to apportion can be changed using the `--min` and `--max` ar
     if `min` and `max` are both provided and not the same, the resulting CSV will containing the apportionments
     for _all_ seat sizes between the two bounds.
 
-Alternatively, the program can output a "play by play" CSV file
+Alternatively, the program can output a "seat by seat" CSV file
     which records each seat assigned in the order it was assigned.
-This is done by passing the `--play-by-play` command line argument.
+This is done by passing the `--seat-by-seat` command line argument.
 In this case, the output CSV contains four columns:
     the row number, 
     the name of the entity to which this seat was assigned,
     the priority number of the entity at the time this seat was assigned,
     and the number of seats so far that this entity has been assigned.
+
+## Verifying historical US House apportionments
+
+The Huntington-Hill method has been in use since the apportionment following the 1950 census.
+As of time of writing (2020), it has been used for seven reapportionments.
+This program can, and has, been used to verify these apportionments.
+
+Explain the data layout..
+
+Current guesses...
+
+When verifying historical apportionments, the following are important to note.
+
+- The Census Bureau has sometimes included overseas US Government 
+    employees in the population counts used for apportioning.
+    The Census Bureau did this in 1970 and from 1990 to the present.
+    In 2010, this did not change the apportionment, but it did in
+    2000 (North Carolina was apportioned the 435th seat, instead of Utah)
+    and in 1990 (Washington, instead of Massachusetts).
+    The constitutionally of this practice was upheld by the Supreme Court in ._Franklin v. Massachusetts_.
+
+- The Census Bureau uses floating point arithmetic when calculating 
+    the priority values of each state at each point in the algorithm.
+    Using lossy floating point arithmetic is not neccessary and
+    this application generally avoids it.
+    Nevertheless, looking at the priority numbers, we see no reason why 
+    the results should be different because the priority values
+    are sufficiently far apart to not be suceptible to floating point round-off errors.
+
+
 
 ## Building the program
 
@@ -41,17 +72,6 @@ To build using an alternative compiler...
 
 To run the tests...
 
-## Verifying historical US House apportionments
-
-The Huntington-Hill method has been in use since the apportionment following the 1940 census.
-As of time of writing (2020), it has been used for eight reapportionments.
-The official reapportionment numbers are calculated by the Census Bureau.
-
-The past results have be verified...
-
-The future results will be verified...
-
-Current guesses...
 
 ## C++ modules within
 
