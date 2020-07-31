@@ -51,16 +51,42 @@ When verifying historical apportionments, the following are important to note.
     In 2010, this did not change the apportionment, but it did in
     2000 (North Carolina was apportioned the 435th seat, instead of Utah)
     and in 1990 (Washington, instead of Massachusetts).
-    The constitutionally of this practice was upheld by the Supreme Court in ._Franklin v. Massachusetts_.
+    The constitutionally of this practice was upheld by the Supreme Court in _Franklin v. Massachusetts_.
 
 - The Census Bureau uses floating point arithmetic when calculating 
     the priority values of each state at each point in the algorithm.
-    Using lossy floating point arithmetic is not neccessary and
-    this application generally avoids it.
-    Nevertheless, looking at the priority numbers, we see no reason why 
-    the results should be different because the priority values
-    are sufficiently far apart to not be suceptible to floating point round-off errors.
+    Using lossy floating point arithmetic is problematical because
+    (a) it makes it harder to precisely replicate the 
+        algorithm because the priority values can be 
+        different depending on the precision in use, and
+    (b) in certain _highly unlikely_ scenarios the calculated apportionment
+        may be incorrect because of rounding erros.
+    This application does not in general use floating point arithmetic
+    but rather solves the problem exactly.
 
+## What does solving the problem exactly mean?
+
+The Huntington–Hill method does actually require calculating the priority values.
+To select the state with the largest priority value, it is only necessary to 
+be able to compare priority values and choose the larger one.
+Given two priority values of the form 
+`P1 / sqrt(n1 * (n1 + 1))` and
+`P2 / sqrt(n2 * (n2 + 1))`, the first is larger if and only if:
+
+    P1 * sqrt(n2 * (n2 + 1)) > / P2 * sqrt(n1 * (n1 + 1))
+
+Squaring both sides, this is true if and only if:
+
+    P1 * P1 * n2 * (n2 + 1) > P2 * P2 * n1 * (n1 + 1)
+
+All of the numbers in the inequality here are integers, and
+so it is possible to detemine the larger priority number using integer arithmetic alone.
+
+The single catch is that this program is written in C++ using 64 bit integers,
+and for certain large values of `P` and `n` it may not be possible
+to calculate both sides of the inequality.
+In this case (which never arises in the US House case),
+the application reverts to floating point arithmetic and logs a warning.
 
 
 ## Building the program
