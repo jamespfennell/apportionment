@@ -131,6 +131,7 @@ long double calculatePriorityNumberLong(const State &state, long seats) {
 }
 
 template <typename W> class HeapImpl : public ApportionmentSession::Impl {
+  long totalSeats;
   std::unordered_map<State, long> stateToSeats;
   Heap<State, W> heap;
   W (*calculatePriorityNumber)(const State &, long);
@@ -143,6 +144,7 @@ public:
 
   ~HeapImpl() {}
   void initialize(const vector<State> &states) {
+    totalSeats = states.size();
     for (const auto &state : states) {
       this->stateToSeats.insert(make_pair(state, 1));
       this->heap.add(state, calculatePriorityNumber(state, 1));
@@ -154,13 +156,15 @@ public:
   }
 
   ApportionedSeat apportionSeat() {
-    State state = this->heap.pop();
+    State state = heap.pop();
     W oldPriorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
-    this->stateToSeats[state]++;
+    stateToSeats[state]++;
+    totalSeats++;
     W priorityNumber = calculatePriorityNumber(state, stateToSeats[state]);
-    this->heap.add(state, priorityNumber);
-    return ApportionedSeat{state, this->stateToSeats[state], -1,
-                           static_cast<long double>(oldPriorityNumber)};
+    heap.add(state, priorityNumber);
+    return ApportionedSeat{state, stateToSeats[state],  totalSeats,
+                           static_cast<long double>(oldPriorityNumber),
+                           };
   }
 };
 

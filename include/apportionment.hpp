@@ -22,7 +22,7 @@ struct ApportionedSeat {
   long stateSeat;
   long houseSeat;
   long double priorityNumber;
-
+  std::string priorityNumberString;
 };
 
 enum class ArithmeticMethod {
