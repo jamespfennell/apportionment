@@ -23,8 +23,8 @@ vector<State> readStatesFromCsv(CsvReader &csvReader, const string &nameHeader,
   return states;
 }
 // NEXT STEPS
-// - verify historical apportionments!
-// - write CSV priortiy outputter
+// - verify 2010 priority numbers and apportionment order
+// - verify historical apportionments for other years + priority numbers
 // - unsigned long long wherever possible. Document limitations!
 
 void writeApportionmentsAsCsv(ostream &outputStream,
@@ -173,10 +173,9 @@ int main(int argc, char *argv[]) {
   Options options(argc, argv);
   vector<State> states =
       readStatesFromCsv(options.getCsvReader(), options.stateName, options.popName);
-
-  //writeApportionmentsAsCsv(cout, states, result["min"].as<int>(),
-  //                         result["max"].as<int>());
-  //writeApportionmentsAsCsv(cout, states, options.minSeats, options.maxSeats);
-  writeSeatBySeatAsCsv(cout, states, options.maxSeats);
-  return 0;
+  if (options.seatBySeat) {
+    writeSeatBySeatAsCsv(cout, states, options.maxSeats);
+  } else {
+    writeApportionmentsAsCsv(cout, states, options.minSeats, options.maxSeats);
+  }
 }
