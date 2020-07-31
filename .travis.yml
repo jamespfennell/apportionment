@@ -3,7 +3,9 @@ os: osx
 language: cpp
 
 script:
-  - clang++ -std=c++11 -stdlib=libc++ apportionment.cpp -o apportionment
-  - ./apportionment > 2010_now.csv
-  - diff 2010.csv 2010_now.csv
-  
+  - mkdir build
+  - mkdir bin
+  - make
+  - bin/apportionment -i data/2000_census_data.csv --state-column state --pop-column pop_total | diff data/2000_actual_apportionment.csv -
+  - bin/apportionment -i data/1990_census_data.csv --state-column state --pop-column pop_total | diff data/1990_apportionment.csv -
+  - ./bin/apportionment -i data/2010_populations.csv > diff data/2010_apportionment.csv -
