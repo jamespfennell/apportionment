@@ -33,10 +33,10 @@ The output CSV in this case contains four columns:
 ## Verifying historical US House apportionments
 
 The Huntington-Hill method has been used for the US House
-     since the apportionment following the 1950 census.
-At time of writing (2020), it has been used for seven apportionments.
+     since the apportionment following the 1940 census.
+At time of writing (2020), it has been used for eight apportionments.
 The continouous integration pipeline for this repository
-   verifies these seven apportionments using Census Bureau population.
+   verifies these eigth apportionments using Census Bureau population.
 Moreover, for the three most recent apportionments the priority values
     of all 385 apportioned seats are also verified.
 
@@ -49,9 +49,10 @@ When verifying historical apportionments, keep in mind the following.
 - The Census Bureau has sometimes included overseas US Government 
     employees in the population counts used for apportioning.
     They did this in 1970 and from 1990 to the present.
-    In 2010, this did not change the apportionment, but it did in
-    2000 (North Carolina was apportioned the 435th seat, instead of Utah)
-    and in 1990 (Washington, instead of Massachusetts).
+    In every year except 2010, this has changed the apportionment:
+    in 1970, Oklahoma was apportioned the 435th seat instead of Connecticut;
+    in 1990, Washington instead of Massachusetts;
+    and in 2000, North Carolina instead of Utah.
     The constitutionally of this practice was upheld by the Supreme Court in Franklin v. Massachusetts.
 
 - The Census Bureau uses floating point arithmetic when calculating 
