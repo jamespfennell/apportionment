@@ -5,19 +5,16 @@ This method is currently used for apportioning the United States House of Repres
 Moreover, with an additional assignment of two seats per State and three for the District of Columbia,
     this method also determines the apportionment of the US Electoral College.
 
-The program takes an input CSV containing populations and
-By default, the program runs like a classic Unix utility, 
-    reading an input CSV containing populations from stdin, 
-    and printing an output CSV containing apportionments to stdout:
+The program takes an input CSV containing populations and outputs a CSV containing apportionments:
 
-    cat 2010_populations.csv | apportionment > 2010_apportionment.csv
+    apportionment --input data/2010_census_data.csv --state-column state --pop-column pop_total
 
-It can also be run like a regular program with input and output files specified:
-
-    apportionment -i 2010_populations.csv -o 2010_apportionment.csv
-
-The input CSV must have two columns, the first containing the names of the entities amongst which seats are being apportioned,
+The input CSV must have two columns, one containing the names of the states
+     amongst which seats are being apportioned,
     and the second the associated populations.
+These two columns may be specified by name as above; if names are ommited,
+    the first and second column are used respectively.
+
 The output CSV, by default, contains the names and the apportionments assuming 435 seats
     (i.e., the number of seats in the US House).
 The number of seats to apportion can be changed using the `--min` and `--max` arguments;
@@ -27,31 +24,35 @@ The number of seats to apportion can be changed using the `--min` and `--max` ar
 Alternatively, the program can output a "seat by seat" CSV file
     which records each seat assigned in the order it was assigned.
 This is done by passing the `--seat-by-seat` command line argument.
-In this case, the output CSV contains four columns:
-    the row number, 
-    the name of the entity to which this seat was assigned,
-    the priority number of the entity at the time this seat was assigned,
-    and the number of seats so far that this entity has been assigned.
+The output CSV in this case contains four columns:
+    the total number of seats that have been apportioned so far,
+    the name of the state to which this seat was assigned,
+    the priority number of the state at the time this seat was assigned,
+    and the number of seats so far that this state has been assigned.
 
 ## Verifying historical US House apportionments
 
-The Huntington-Hill method has been in use since the apportionment following the 1950 census.
-As of time of writing (2020), it has been used for seven reapportionments.
-This program can, and has, been used to verify these apportionments.
+The Huntington-Hill method has been used for the US House
+     since the apportionment following the 1950 census.
+At time of writing (2020), it has been used for seven apportionments.
+The continouous integration pipeline for this repository
+   verifies these seven apportionments using Census Bureau population.
+Moreover, for the three most recent apportionments the priority values
+    of all 385 apportioned seats are also verified.
 
 Explain the data layout..
 
 Current guesses...
 
-When verifying historical apportionments, the following are important to note.
+When verifying historical apportionments, keep in mind the following.
 
 - The Census Bureau has sometimes included overseas US Government 
     employees in the population counts used for apportioning.
-    The Census Bureau did this in 1970 and from 1990 to the present.
+    They did this in 1970 and from 1990 to the present.
     In 2010, this did not change the apportionment, but it did in
     2000 (North Carolina was apportioned the 435th seat, instead of Utah)
     and in 1990 (Washington, instead of Massachusetts).
-    The constitutionally of this practice was upheld by the Supreme Court in _Franklin v. Massachusetts_.
+    The constitutionally of this practice was upheld by the Supreme Court in Franklin v. Massachusetts.
 
 - The Census Bureau uses floating point arithmetic when calculating 
     the priority values of each state at each point in the algorithm.
@@ -66,7 +67,7 @@ When verifying historical apportionments, the following are important to note.
 
 ## What does solving the problem exactly mean?
 
-The Huntington–Hill method does actually require calculating the priority values.
+The Huntington–Hill method does not require the priority values to be explicitly calculated.
 To select the state with the largest priority value, it is only necessary to 
 be able to _compare_ priority values and choose the larger one.
 Given two priority values of the form 
