@@ -66,7 +66,7 @@ When verifying historical apportionments, keep in mind the following.
     This application does not in general use floating point arithmetic
     but rather solves the problem exactly.
 
-## What does solving the problem exactly mean?
+## Solving the apportionment problem exactly
 
 The Huntington–Hill method does not require the priority values to be explicitly calculated.
 To select the state with the largest priority value, it is only necessary to 

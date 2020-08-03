@@ -1,6 +1,11 @@
 """
-Python script to compare priorty values from 
-the Census Bureau with those from the program
+Python script to compare priorty values from the Census Bureau with those from the program.
+
+The program generated values are read from stdin, while the Census Bureau values are read
+from a CSV file whose path is provided as the sole command line argument.
+
+This script is necessary because the Census Bureau provides rounded integer priorty values
+while the program generates floating point values
 """
 import csv
 import math
