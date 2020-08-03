@@ -16,3 +16,5 @@ script:
   - bin/apportionment -i data/1990_census_data.csv --state-column state --pop-column pop_total | diff data/1990_apportionment.csv -
   - bin/apportionment -i data/2000_census_data.csv --state-column state --pop-column pop_total | diff data/2000_actual_apportionment.csv -
   - bin/apportionment -i data/2010_populations.csv > diff data/2010_apportionment.csv -
+  - bin/apportionment -i data/1990_census_data.csv --state-column state --pop-column pop_total --seat-by-seat | python3 compare.py data/1990_priority_values.csv 
+  - bin/apportionment -i data/2000_census_data.csv --state-column state --pop-column pop_total --seat-by-seat | python3 compare.py data/2000_priority_values.csv 

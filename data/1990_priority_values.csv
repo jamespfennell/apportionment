@@ -1,0 +1,391 @@
+house_seat,state,state_seat,priority_value
+51,California,2,21099536
+52,New York,2,12759392
+53,California,3,12181823
+54,Texas,2,12063104
+55,Florida,2,9194765
+56,California,4,8613850
+57,Pennsylvania,2,8432043
+58,Illinois,2,8108169
+59,Ohio,2,7698501
+60,New York,3,7366638
+61,Texas,3,6964636
+62,California,5,6672259
+63,Michigan,2,6596446
+64,New Jersey,2,5479112
+65,California,6,5447877
+66,Florida,3,5308600
+67,New York,4,5209000
+68,Texas,4,4924742
+69,Pennsylvania,3,4868242
+70,North Carolina,2,4707655
+71,Illinois,3,4681253
+72,California,7,4604296
+73,Georgia,2,4602147
+74,Ohio,3,4444732
+75,Virginia,2,4395777
+76,Massachusetts,2,4263183
+77,New York,5,4034874
+78,California,8,3987438
+79,Indiana,2,3934503
+80,Texas,5,3814688
+81,Michigan,3,3808460
+82,Florida,4,3753747
+83,Missouri,2,3632976
+84,California,9,3516589
+85,Wisconsin,2,3469593
+86,Tennessee,2,3462448
+87,Washington,2,3456296
+88,Pennsylvania,4,3442367
+89,Maryland,2,3393138
+90,Illinois,4,3310146
+91,New York,6,3294461
+92,New Jersey,3,3163367
+93,California,10,3145333
+94,Ohio,4,3142900
+95,Texas,6,3114680
+96,Minnesota,2,3102098
+97,Louisiana,2,2996871
+98,Florida,5,2907640
+99,Alabama,2,2872698
+100,California,11,2845061
+101,New York,7,2784328
+102,North Carolina,3,2717966
+103,Michigan,4,2692988
+104,Pennsylvania,5,2666446
+105,Georgia,3,2657051
+106,Texas,7,2632385
+107,Kentucky,2,2615566
+108,Arizona,2,2600728
+109,California,12,2597173
+110,Illinois,5,2564028
+111,Virginia,3,2537903
+112,South Carolina,2,2478909
+113,Massachusetts,3,2461350
+114,Ohio,5,2434480
+115,New York,8,2411298
+116,California,13,2389052
+117,Florida,6,2374078
+118,Colorado,2,2339047
+119,Connecticut,2,2330390
+120,Texas,8,2279712
+121,Indiana,3,2271587
+122,New Jersey,4,2236838
+123,Oklahoma,2,2232763
+124,California,14,2211832
+125,Pennsylvania,6,2177144
+126,New York,9,2126565
+127,Missouri,3,2097500
+128,Illinois,6,2093520
+129,Michigan,5,2085980
+130,California,15,2059104
+131,Oregon,2,2017894
+132,Texas,9,2010517
+133,Florida,7,2006462
+134,Wisconsin,3,2003170
+135,Tennessee,3,1999045
+136,Washington,3,1995494
+137,Ohio,6,1987744
+138,Iowa,2,1971006
+139,Maryland,3,1959029
+140,California,16,1926115
+141,North Carolina,4,1921892
+142,New York,10,1902058
+143,Georgia,4,1878819
+144,Pennsylvania,7,1840023
+145,Mississippi,2,1828891
+146,California,17,1809270
+147,Texas,10,1798261
+148,Virginia,4,1794569
+149,Minnesota,3,1790997
+150,Illinois,7,1769347
+151,Kansas,2,1757585
+152,Massachusetts,4,1740437
+153,Florida,8,1737647
+154,New Jersey,5,1732647
+155,Louisiana,3,1730244
+156,New York,11,1720476
+157,California,18,1705797
+158,Michigan,6,1703195
+159,Ohio,7,1679951
+160,Arkansas,2,1670355
+161,Alabama,3,1658553
+162,Texas,11,1626589
+163,California,19,1613522
+164,Indiana,4,1606254
+165,Pennsylvania,8,1593506
+166,New York,12,1570573
+167,Florida,9,1532461
+168,Illinois,8,1532300
+169,California,20,1530721
+170,Kentucky,3,1510098
+171,Arizona,3,1501531
+172,North Carolina,5,1488691
+173,Texas,12,1484865
+174,Missouri,4,1483156
+175,California,21,1456006
+176,Georgia,5,1455327
+177,Ohio,8,1454880
+178,New York,13,1444717
+179,Michigan,7,1439463
+180,South Carolina,3,1431199
+181,Wisconsin,4,1416455
+182,New Jersey,6,1414701
+183,Tennessee,4,1413538
+184,Washington,4,1411027
+185,Pennsylvania,9,1405341
+186,Virginia,5,1390067
+187,California,22,1388248
+188,Maryland,4,1385243
+189,Florida,10,1370675
+190,Texas,13,1365878
+191,Illinois,9,1351361
+192,Colorado,3,1350449
+193,Massachusetts,5,1348137
+194,Connecticut,3,1345451
+195,New York,14,1337548
+196,California,23,1326516
+197,Oklahoma,3,1289086
+198,Ohio,9,1283084
+199,West Virginia,2,1273941
+200,California,24,1270043
+201,Minnesota,4,1266426
+202,Texas,14,1264557
+203,Pennsylvania,10,1256975
+204,Michigan,8,1246611
+205,New York,15,1245189
+206,Indiana,5,1244199
+207,Florida,11,1239822
+208,Louisiana,4,1223468
+209,Utah,2,1221728
+210,California,25,1218182
+211,North Carolina,6,1215511
+212,Illinois,10,1208694
+213,New Jersey,7,1195640
+214,Georgia,6,1188269
+215,Texas,15,1177238
+216,Alabama,4,1172774
+217,California,26,1170392
+218,Oregon,3,1165032
+219,New York,16,1164768
+220,Missouri,5,1148848
+221,Ohio,10,1147625
+222,Iowa,3,1137961
+223,Pennsylvania,11,1136976
+224,Virginia,6,1134985
+225,Florida,12,1131797
+226,California,27,1126210
+227,Nebraska,2,1120493
+228,Texas,16,1101206
+229,Massachusetts,6,1100749
+230,Michigan,9,1099408
+231,Wisconsin,5,1097182
+232,Tennessee,5,1094922
+233,New York,17,1094109
+234,Illinois,11,1093305
+235,Washington,5,1092977
+236,California,28,1085243
+237,New Mexico,2,1076060
+238,Maryland,5,1073004
+239,Kentucky,4,1067800
+240,Arizona,4,1061743
+241,Mississippi,3,1055911
+242,California,29,1047152
+243,Florida,13,1041102
+244,Ohio,11,1038066
+245,Pennsylvania,12,1037913
+246,New Jersey,8,1035455
+247,Texas,17,1034403
+248,New York,18,1031536
+249,North Carolina,7,1027295
+250,Indiana,6,1015884
+251,Kansas,3,1014742
+252,South Carolina,4,1012010
+253,California,30,1011645
+254,Georgia,7,1004271
+255,Illinois,12,998047
+256,Michigan,10,983340
+257,Minnesota,5,980970
+258,California,31,978468
+259,New York,19,975735
+260,Texas,18,975244
+261,Arkansas,3,964380
+262,Florida,14,963873
+263,Virginia,7,959237
+264,Colorado,4,954912
+265,Pennsylvania,13,954741
+266,Connecticut,4,951378
+267,Louisiana,5,947694
+268,Ohio,12,947620
+269,California,32,947397
+270,Missouri,6,938030
+271,Massachusetts,7,930303
+272,New York,20,925664
+273,Texas,19,922489
+274,California,33,918239
+275,Illinois,13,918069
+276,New Jersey,9,913185
+277,Oklahoma,4,911522
+278,Alabama,5,908427
+279,Florida,15,897317
+280,Wisconsin,6,895845
+281,Tennessee,6,894000
+282,Washington,6,892412
+283,California,34,890823
+284,North Carolina,8,889663
+285,Michigan,11,889465
+286,Pennsylvania,14,883918
+287,New York,21,880482
+288,Maryland,6,876105
+289,Texas,20,875150
+290,Maine,2,872020
+291,Ohio,13,871684
+292,Georgia,8,869724
+293,California,35,864997
+294,Indiana,7,858579
+295,Nevada,2,852878
+296,Illinois,14,849967
+297,California,36,840626
+298,New York,22,839506
+299,Florida,16,839363
+300,Texas,21,832433
+301,Virginia,8,830724
+302,Kentucky,5,827115
+303,Oregon,4,823802
+304,Pennsylvania,15,822883
+305,Arizona,5,822422
+306,California,37,817590
+307,New Jersey,10,816778
+308,Michigan,12,811966
+309,Ohio,14,807022
+310,Massachusetts,8,805666
+311,Iowa,4,804660
+312,New York,23,802176
+313,Minnesota,6,800958
+314,California,38,795784
+315,Texas,22,793694
+316,Missouri,7,792780
+317,Illinois,15,791276
+318,Hawaii,2,788618
+319,Florida,17,788445
+320,New Hampshire,2,787657
+321,North Carolina,9,784609
+322,South Carolina,5,783900
+323,California,39,775111
+324,Louisiana,6,773789
+325,Pennsylvania,16,769737
+326,New York,24,768025
+327,Georgia,9,767025
+328,Texas,23,758401
+329,Wisconsin,7,757127
+330,Tennessee,7,755568
+331,California,40,755485
+332,Washington,7,754226
+333,Ohio,15,751297
+334,Michigan,13,746900
+335,Mississippi,4,746642
+336,Indiana,8,743551
+337,Florida,18,743353
+338,Alabama,6,741727
+339,Maryland,7,740443
+340,Illinois,16,740171
+341,Colorado,5,739672
+342,New Jersey,11,738803
+343,Connecticut,5,736934
+344,California,41,736828
+345,New York,25,736664
+346,West Virginia,3,735510
+347,Virginia,9,732630
+348,Texas,24,726114
+349,Pennsylvania,17,723042
+350,California,42,719070
+351,Kansas,4,717531
+352,Idaho,2,715582
+353,Rhode Island,2,711338
+354,Massachusetts,9,710530
+355,New York,26,707764
+356,Oklahoma,5,706062
+357,Utah,3,705365
+358,Florida,19,703141
+359,Ohio,16,702774
+360,California,43,702149
+361,North Carolina,10,701776
+362,Texas,25,696464
+363,Illinois,17,695270
+364,Michigan,14,691495
+365,Missouri,8,686568
+366,Georgia,10,686048
+367,California,44,686005
+368,Arkansas,4,681920
+369,Pennsylvania,18,681690
+370,New York,27,681046
+371,Minnesota,7,676933
+372,Kentucky,6,675336
+373,New Jersey,12,674432
+374,Arizona,6,671505
+375,California,45,670587
+376,Texas,26,669141
+377,Florida,20,667058
+378,Ohio,17,660141
+379,New York,28,656272
+380,California,46,655847
+381,Indiana,9,655751
+382,Wisconsin,8,655691
+383,Illinois,18,655507
+384,Virginia,10,655284
+385,Tennessee,8,654341
+386,Louisiana,7,653971
+387,Washington,8,653179
+388,Nebraska,3,646917
+389,Pennsylvania,19,644814
+390,Texas,27,643881
+391,Michigan,15,643747
+392,California,47,641741
+393,Maryland,8,641243
+394,South Carolina,6,640052
+395,Oregon,5,638114
+396,Massachusetts,10,635518
+397,North Carolina,11,634780
+398,Florida,21,634499
+399,New York,29,633238
+400,California,48,628230
+401,Alabama,7,626874
+402,Iowa,5,623287
+403,Ohio,18,622387
+404,New Mexico,3,621264
+405,Georgia,11,620553
+406,Texas,28,620459
+407,New Jersey,13,620387
+408,Illinois,19,620047
+409,California,49,615275
+410,New York,30,611766
+411,Pennsylvania,20,611725
+412,Missouri,9,605496
+413,Florida,22,604971
+414,Colorado,6,603939
+415,California,50,602844
+416,Michigan,16,602170
+417,Connecticut,6,601704
+418,Texas,29,598682
+419,Virginia,11,592727
+420,New York,31,591703
+421,California,51,590905
+422,Ohio,19,588719
+423,Illinois,20,588228
+424,Indiana,10,586521
+425,Minnesota,8,586241
+426,Pennsylvania,21,581866
+427,North Carolina,12,579472
+428,California,52,579430
+429,Texas,30,578382
+430,Mississippi,5,578346
+431,Wisconsin,9,578265
+432,Florida,23,578070
+433,Tennessee,9,577075
+434,Oklahoma,6,576497
+435,Washington,9,576049
+436,Massachusetts,11,574847
+437,New Jersey,14,574367
+438,New York,32,572914
+439,Kentucky,7,570763
+440,California,53,568392
