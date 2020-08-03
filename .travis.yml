@@ -8,6 +8,8 @@ install:
   - make
 
 script:
+  - bin/apportionment -i data/1940_census_data.csv | diff data/1940_apportionment.csv - 
+  - bin/apportionment -i data/1950_census_data.csv | diff data/1950_apportionment.csv - 
   - bin/apportionment -i data/1960_populations.csv | diff data/1960_apportionment.csv - 
   - bin/apportionment -i data/1970_census_data.csv | diff data/1970_apportionment.csv -
   - bin/apportionment -i data/1980_populations.csv | diff data/1980_apportionment.csv -
